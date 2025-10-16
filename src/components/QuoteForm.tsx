@@ -6,14 +6,16 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calculator, Download } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const QuoteForm = () => {
   const [quantity, setQuantity] = useState("1");
   const [material, setMaterial] = useState("");
   const [process, setProcess] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedQuote, setGeneratedQuote] = useState<any>(null);
 
-  const handleGenerateQuote = () => {
+  const handleGenerateQuote = async () => {
     if (!material || !process) {
       toast.error("Please select material and process type");
       return;
@@ -21,11 +23,32 @@ const QuoteForm = () => {
 
     setIsGenerating(true);
     
-    // Simulate quote generation
-    setTimeout(() => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast.error("Please sign in to generate quotes");
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke('generate-quote', {
+        body: {
+          quantity: parseInt(quantity),
+          material,
+          process,
+          cadUploadId: null,
+        },
+      });
+
+      if (error) throw error;
+
+      setGeneratedQuote(data);
+      toast.success("Quote generated successfully!");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to generate quote");
+    } finally {
       setIsGenerating(false);
-      toast.success("Quote generated successfully! Ready for download.");
-    }, 2000);
+    }
   };
 
   return (
@@ -74,10 +97,10 @@ const QuoteForm = () => {
               <SelectValue placeholder="Select process" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="laser">Laser Cutting</SelectItem>
-              <SelectItem value="bending">Bending</SelectItem>
+              <SelectItem value="laser-cutting">Laser Cutting</SelectItem>
+              <SelectItem value="cnc-machining">CNC Machining</SelectItem>
+              <SelectItem value="sheet-metal">Sheet Metal</SelectItem>
               <SelectItem value="welding">Welding</SelectItem>
-              <SelectItem value="coating">Coating/Finishing</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -105,33 +128,39 @@ const QuoteForm = () => {
           <Button 
             variant="outline" 
             className="w-full"
-            disabled={isGenerating}
+            disabled={!generatedQuote}
           >
             <Download className="w-4 h-4 mr-2" />
             Download PDF
           </Button>
         </div>
 
-        <div className="p-4 rounded-lg bg-muted/50 border border-border">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-muted-foreground">Estimated Price</span>
-            <span className="text-2xl font-bold text-primary">$1,245.00</span>
+        {generatedQuote && (
+          <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+            <h4 className="font-semibold mb-3">Estimated Price Breakdown</h4>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Material Cost:</span>
+                <span className="font-medium">${generatedQuote.material_cost.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Fabrication:</span>
+                <span className="font-medium">${generatedQuote.fabrication_cost.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Overhead & Risk:</span>
+                <span className="font-medium">${generatedQuote.overhead_cost.toFixed(2)}</span>
+              </div>
+              <div className="pt-2 border-t border-primary/20 flex justify-between text-base">
+                <span className="font-semibold">Total:</span>
+                <span className="font-bold text-primary">${generatedQuote.total_price.toFixed(2)}</span>
+              </div>
+              <div className="text-xs text-muted-foreground mt-2">
+                Valid until: {new Date(generatedQuote.valid_until).toLocaleDateString()}
+              </div>
+            </div>
           </div>
-          <div className="text-xs text-muted-foreground space-y-1">
-            <div className="flex justify-between">
-              <span>Material Cost:</span>
-              <span>$850.00</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Processing:</span>
-              <span>$295.00</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Overhead & Energy:</span>
-              <span>$100.00</span>
-            </div>
-          </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );

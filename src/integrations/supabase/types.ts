@@ -14,7 +14,149 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cad_uploads: {
+        Row: {
+          created_at: string | null
+          estimated_volume: number | null
+          file_name: string
+          file_path: string
+          file_size: number | null
+          id: string
+          material_type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          estimated_volume?: number | null
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          id?: string
+          material_type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          estimated_volume?: number | null
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          material_type?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      commodity_prices: {
+        Row: {
+          change_percentage: number | null
+          id: string
+          name: string
+          price: number
+          trend: string | null
+          unit: string
+          updated_at: string | null
+        }
+        Insert: {
+          change_percentage?: number | null
+          id?: string
+          name: string
+          price: number
+          trend?: string | null
+          unit?: string
+          updated_at?: string | null
+        }
+        Update: {
+          change_percentage?: number | null
+          id?: string
+          name?: string
+          price?: number
+          trend?: string | null
+          unit?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          company_name: string | null
+          created_at: string | null
+          email: string | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string | null
+          email?: string | null
+          id: string
+          updated_at?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      quotes: {
+        Row: {
+          cad_upload_id: string | null
+          created_at: string | null
+          fabrication_cost: number
+          id: string
+          material: string
+          material_cost: number
+          overhead_cost: number
+          process: string
+          quantity: number
+          status: string | null
+          total_price: number
+          user_id: string | null
+          valid_until: string
+        }
+        Insert: {
+          cad_upload_id?: string | null
+          created_at?: string | null
+          fabrication_cost: number
+          id?: string
+          material: string
+          material_cost: number
+          overhead_cost: number
+          process: string
+          quantity: number
+          status?: string | null
+          total_price: number
+          user_id?: string | null
+          valid_until: string
+        }
+        Update: {
+          cad_upload_id?: string | null
+          created_at?: string | null
+          fabrication_cost?: number
+          id?: string
+          material?: string
+          material_cost?: number
+          overhead_cost?: number
+          process?: string
+          quantity?: number
+          status?: string | null
+          total_price?: number
+          user_id?: string | null
+          valid_until?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_cad_upload_id_fkey"
+            columns: ["cad_upload_id"]
+            isOneToOne: false
+            referencedRelation: "cad_uploads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

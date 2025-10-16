@@ -3,10 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Upload, FileText, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const CADUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -18,6 +20,53 @@ const CADUpload = () => {
     }
   }, []);
 
+  const uploadFile = async (uploadedFile: File) => {
+    const validExtensions = ['.dxf', '.step', '.stp', '.dwg'];
+    const fileExtension = uploadedFile.name.toLowerCase().slice(uploadedFile.name.lastIndexOf('.'));
+    
+    if (!validExtensions.includes(fileExtension)) {
+      toast.error("Invalid file type. Please upload .DXF, .STEP, or .DWG files.");
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast.error("Please sign in to upload files");
+        return;
+      }
+
+      const filePath = `${user.id}/${Date.now()}_${uploadedFile.name}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('cad-files')
+        .upload(filePath, uploadedFile);
+
+      if (uploadError) throw uploadError;
+
+      const { error: dbError } = await supabase
+        .from('cad_uploads')
+        .insert({
+          user_id: user.id,
+          file_name: uploadedFile.name,
+          file_path: filePath,
+          file_size: uploadedFile.size,
+        });
+
+      if (dbError) throw dbError;
+
+      setFile(uploadedFile);
+      toast.success(`File "${uploadedFile.name}" uploaded successfully!`);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to upload file");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -25,23 +74,13 @@ const CADUpload = () => {
 
     const files = e.dataTransfer.files;
     if (files && files[0]) {
-      const uploadedFile = files[0];
-      const validExtensions = ['.dxf', '.step', '.stp', '.dwg'];
-      const fileExtension = uploadedFile.name.toLowerCase().slice(uploadedFile.name.lastIndexOf('.'));
-      
-      if (validExtensions.includes(fileExtension)) {
-        setFile(uploadedFile);
-        toast.success("CAD file uploaded successfully!");
-      } else {
-        toast.error("Invalid file type. Please upload .DXF, .STEP, or .DWG files.");
-      }
+      uploadFile(files[0]);
     }
   }, []);
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-      toast.success("CAD file uploaded successfully!");
+      uploadFile(e.target.files[0]);
     }
   };
 
@@ -88,9 +127,9 @@ const CADUpload = () => {
               <Upload className="w-12 h-12 text-muted-foreground" />
               <div>
                 <p className="mb-2 text-sm font-medium">
-                  Drag and drop your CAD file here, or
+                  {uploading ? "Uploading..." : "Drag and drop your CAD file here, or"}
                 </p>
-                <Button variant="default" asChild className="cursor-pointer">
+                <Button variant="default" asChild className="cursor-pointer" disabled={uploading}>
                   <label>
                     Browse Files
                     <input
