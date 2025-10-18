@@ -22,21 +22,32 @@ const QuoteForm = () => {
     }
 
     setIsGenerating(true);
-    
+
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         toast.error("Please sign in to generate quotes");
         return;
       }
+
+      // Get the most recent CAD upload with analysis
+      const { data: uploads } = await supabase
+        .from('cad_uploads')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      const latestUpload = uploads?.[0];
 
       const { data, error } = await supabase.functions.invoke('generate-quote', {
         body: {
           quantity: parseInt(quantity),
           material,
           process,
-          cadUploadId: null,
+          cadUploadId: latestUpload?.id || null,
+          estimatedVolume: latestUpload?.estimated_volume || null,
         },
       });
 
@@ -139,6 +150,12 @@ const QuoteForm = () => {
           <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
             <h4 className="font-semibold mb-3">Estimated Price Breakdown</h4>
             <div className="space-y-2 text-sm">
+              {generatedQuote.volume && (
+                <div className="flex justify-between pb-2 border-b border-primary/10">
+                  <span className="text-muted-foreground">Part Volume:</span>
+                  <span className="font-medium">{generatedQuote.volume.toFixed(2)} mm³</span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Material Cost:</span>
                 <span className="font-medium">${generatedQuote.material_cost.toFixed(2)}</span>
@@ -158,6 +175,11 @@ const QuoteForm = () => {
               <div className="text-xs text-muted-foreground mt-2">
                 Valid until: {new Date(generatedQuote.valid_until).toLocaleDateString()}
               </div>
+              {generatedQuote.cad_upload_id && (
+                <div className="text-xs text-success mt-2">
+                  ✓ Quote based on CAD analysis
+                </div>
+              )}
             </div>
           </div>
         )}

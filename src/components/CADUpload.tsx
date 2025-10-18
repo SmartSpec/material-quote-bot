@@ -5,10 +5,24 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
+interface CADAnalysisResult {
+  volume: number;
+  surface_area: number;
+  bounding_box: {
+    length: number;
+    width: number;
+    height: number;
+  };
+  file_name: string;
+}
+
 const CADUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analysis, setAnalysis] = useState<CADAnalysisResult | null>(null);
+  const [uploadId, setUploadId] = useState<string | null>(null);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -47,19 +61,42 @@ const CADUpload = () => {
 
       if (uploadError) throw uploadError;
 
-      const { error: dbError } = await supabase
+      const { data: uploadData, error: dbError } = await supabase
         .from('cad_uploads')
         .insert({
           user_id: user.id,
           file_name: uploadedFile.name,
           file_path: filePath,
           file_size: uploadedFile.size,
-        });
+        })
+        .select()
+        .single();
 
       if (dbError) throw dbError;
 
       setFile(uploadedFile);
+      setUploadId(uploadData.id);
       toast.success(`File "${uploadedFile.name}" uploaded successfully!`);
+
+      // Trigger CAD analysis
+      setAnalyzing(true);
+      try {
+        const { data: analysisData, error: analysisError } = await supabase.functions.invoke('analyze-cad', {
+          body: { cad_upload_id: uploadData.id },
+        });
+
+        if (analysisError) throw analysisError;
+
+        if (analysisData?.success) {
+          setAnalysis(analysisData.analysis);
+          toast.success("CAD file analyzed successfully!");
+        }
+      } catch (analysisError: any) {
+        console.error("Analysis error:", analysisError);
+        toast.error("File uploaded but analysis failed. You can still generate quotes.");
+      } finally {
+        setAnalyzing(false);
+      }
     } catch (error: any) {
       toast.error(error.message || "Failed to upload file");
     } finally {
@@ -114,9 +151,45 @@ const CADUpload = () => {
                 <FileText className="w-5 h-5 text-muted-foreground" />
                 <span className="font-medium">{file.name}</span>
               </div>
+
+              {analyzing && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                  Analyzing CAD file...
+                </div>
+              )}
+
+              {analysis && (
+                <div className="w-full p-4 rounded-lg bg-primary/5 border border-primary/20">
+                  <h4 className="font-semibold mb-3 text-sm">Analysis Results</h4>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Volume:</span>
+                      <span className="font-medium">{analysis.volume.toFixed(2)} mm³</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Surface Area:</span>
+                      <span className="font-medium">{analysis.surface_area.toFixed(2)} mm²</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Dimensions (L×W×H):</span>
+                      <span className="font-medium">
+                        {analysis.bounding_box.length.toFixed(1)}×
+                        {analysis.bounding_box.width.toFixed(1)}×
+                        {analysis.bounding_box.height.toFixed(1)} mm
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <Button
                 variant="outline"
-                onClick={() => setFile(null)}
+                onClick={() => {
+                  setFile(null);
+                  setAnalysis(null);
+                  setUploadId(null);
+                }}
                 className="mt-2"
               >
                 Remove File

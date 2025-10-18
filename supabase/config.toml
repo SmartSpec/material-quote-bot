@@ -2,3 +2,6 @@ project_id = "djpgtkyjqokyquhefrea"
 
 [functions.generate-quote]
 verify_jwt = true
+
+[functions.analyze-cad]
+verify_jwt = true

@@ -31,7 +31,7 @@ serve(async (req) => {
       });
     }
 
-    const { quantity, material, process, cadUploadId } = await req.json();
+    const { quantity, material, process, cadUploadId, estimatedVolume } = await req.json();
 
     // Fetch current commodity price
     const { data: commodityData } = await supabaseClient
@@ -42,8 +42,20 @@ serve(async (req) => {
 
     const basePrice = commodityData?.price || 1000;
 
-    // Calculate costs based on specifications
-    const materialCostPerUnit = basePrice * 0.05; // Assume 50kg per part
+    // Material density (kg/mm³)
+    const densities: Record<string, number> = {
+      'steel': 0.0000078, // 7.8 g/cm³
+      'aluminum': 0.0000027, // 2.7 g/cm³
+      'copper': 0.0000089, // 8.9 g/cm³
+      'stainless': 0.0000080, // 8.0 g/cm³
+    };
+
+    const density = densities[material] || 0.0000078;
+
+    // Calculate costs based on actual volume or estimate
+    let volume = estimatedVolume || 50000; // Default 50,000 mm³ if no CAD
+    let materialWeight = volume * density; // kg
+    let materialCostPerUnit = (basePrice / 1000) * materialWeight; // Price per metric ton to kg
     const materialCost = materialCostPerUnit * quantity;
 
     // Process cost estimation
@@ -89,7 +101,13 @@ serve(async (req) => {
 
     if (error) throw error;
 
-    return new Response(JSON.stringify(quote), {
+    // Include volume in response for display
+    const responseData = {
+      ...quote,
+      volume: estimatedVolume || null,
+    };
+
+    return new Response(JSON.stringify(responseData), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error: any) {
