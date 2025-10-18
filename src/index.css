@@ -110,3 +110,7 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+::-webkit-scrollbar {
+    display: none;
+}
