@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import PDFUpload from "@/components/PDFUpload";
-import CADUpload from "@/components/CADUpload";
 import CommodityPricing from "@/components/CommodityPricing";
 import QuoteForm from "@/components/QuoteForm";
 
@@ -60,8 +59,7 @@ const Quote = () => {
             <PDFUpload />
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-2 mb-8">
-            <CADUpload />
+          <div className="mb-8">
             <QuoteForm />
           </div>
 
