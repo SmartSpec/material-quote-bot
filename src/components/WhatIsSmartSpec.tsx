@@ -25,9 +25,9 @@ const WhatIsSmartSpec = ({ onGetStarted }: { onGetStarted: () => void }) => {
           </p>
           
           <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
-            SmartSpec provides manufacturers with seamless CAD integration, automatically extracting material requirements 
+            SmartSpec provides manufacturers with seamless quoting and drawings integration, automatically extracting material requirements 
             and dimensions to generate optimized quotes in seconds. Our platform uses AI algorithms to learn from your 
-            previous quotes and workflow data, continuously improving accuracy and efficiency.
+            previous quotes and workflow data, continuously improving accuracy and efficiency, while maintaining what matters: quality.
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto text-left">
