@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
+import americanAlloyLogo from "@/assets/american-alloy-logo.png";
 
 const Testimonials = () => {
   const testimonials = [
@@ -51,7 +51,18 @@ const Testimonials = () => {
                 <div className="border-t border-border pt-4">
                   <p className="font-semibold">{testimonial.name}</p>
                   {testimonial.role && <p className="text-sm text-muted-foreground">{testimonial.role}</p>}
-                  {testimonial.company && <p className="text-sm text-primary">{testimonial.company}</p>}
+                  {testimonial.company && (
+                    <div className="flex items-center gap-3 mt-1">
+                      <p className="text-sm text-primary">{testimonial.company}</p>
+                      {testimonial.company === "American Alloy Fabricators, Inc." && (
+                        <img 
+                          src={americanAlloyLogo} 
+                          alt="American Alloy Fabricators logo" 
+                          className="h-6 object-contain"
+                        />
+                      )}
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
