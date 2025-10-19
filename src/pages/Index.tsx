@@ -51,11 +51,10 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <button 
             onClick={scrollToTop}
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
+            className="hover:opacity-80 transition-opacity cursor-pointer"
             aria-label="Scroll to top"
           >
-            <img src={logo} alt="SmartSpec Logo" className="w-12 h-12 object-contain" />
-            <h1 className="text-2xl font-bold text-primary">SmartSpec</h1>
+            <h1 className="text-3xl font-bold text-primary">SmartSpec</h1>
           </button>
           <div className="flex items-center gap-4">
             {isLoggedIn ? (
