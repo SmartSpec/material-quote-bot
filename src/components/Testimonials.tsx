@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import americanAlloyLogo from "@/assets/american-alloy-logo.png";
+import tinsleyLogo from "@/assets/tinsley-logo.png";
 
 const Testimonials = () => {
   const testimonials = [
@@ -58,6 +59,13 @@ const Testimonials = () => {
                         <img 
                           src={americanAlloyLogo} 
                           alt="American Alloy Fabricators logo" 
+                          className="h-16 object-contain"
+                        />
+                      )}
+                      {testimonial.company === "Tinsley Design & Fabricating" && (
+                        <img 
+                          src={tinsleyLogo} 
+                          alt="Tinsley Design & Fabricating logo" 
                           className="h-16 object-contain"
                         />
                       )}
