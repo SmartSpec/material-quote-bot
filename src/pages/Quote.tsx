@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import PDFUpload from "@/components/PDFUpload";
 import CommodityPricing from "@/components/CommodityPricing";
 import QuoteForm from "@/components/QuoteForm";
+import WorkdayScheduling from "@/components/WorkdayScheduling";
 
 const Quote = () => {
   const navigate = useNavigate();
@@ -65,6 +66,10 @@ const Quote = () => {
 
           <div className="mt-6">
             <CommodityPricing />
+          </div>
+
+          <div className="mt-6">
+            <WorkdayScheduling />
           </div>
         </div>
       </section>
