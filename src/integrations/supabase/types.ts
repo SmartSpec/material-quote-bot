@@ -77,6 +77,51 @@ export type Database = {
         }
         Relationships: []
       }
+      pressure_vessel_uploads: {
+        Row: {
+          analyzed_at: string | null
+          created_at: string | null
+          file_name: string
+          file_path: string
+          file_size: number | null
+          height: number | null
+          id: string
+          radius: number | null
+          unit: string | null
+          updated_at: string | null
+          user_id: string | null
+          wall_thickness: number | null
+        }
+        Insert: {
+          analyzed_at?: string | null
+          created_at?: string | null
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          radius?: number | null
+          unit?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          wall_thickness?: number | null
+        }
+        Update: {
+          analyzed_at?: string | null
+          created_at?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          radius?: number | null
+          unit?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          wall_thickness?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           company_name: string | null
