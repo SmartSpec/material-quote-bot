@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Hero from "@/components/Hero";
 import WhatIsSmartSpec from "@/components/WhatIsSmartSpec";
+import WhySmartSpecMatters from "@/components/WhySmartSpecMatters";
 import Features from "@/components/Features";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
@@ -74,6 +75,9 @@ const Index = () => {
       
       {/* What is SmartSpec Section */}
       <WhatIsSmartSpec onGetStarted={handleGetStarted} />
+
+      {/* Why SmartSpec Matters Section */}
+      <WhySmartSpecMatters />
 
       {/* Features Section */}
       <div id="features">
