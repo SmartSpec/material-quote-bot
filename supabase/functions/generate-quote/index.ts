@@ -44,10 +44,13 @@ serve(async (req) => {
 
     // Material density (kg/mm³)
     const densities: Record<string, number> = {
-      'steel': 0.0000078, // 7.8 g/cm³
-      'aluminum': 0.0000027, // 2.7 g/cm³
-      'copper': 0.0000089, // 8.9 g/cm³
-      'stainless': 0.0000080, // 8.0 g/cm³
+      'A36': 0.0000078, // 7.8 g/cm³
+      '4140': 0.0000078, // 7.8 g/cm³
+      '304SS': 0.0000080, // 8.0 g/cm³
+      'A572': 0.0000078, // 7.8 g/cm³
+      'Steel': 0.0000078, // 7.8 g/cm³
+      'Aluminum': 0.0000027, // 2.7 g/cm³
+      'Titanium': 0.0000045, // 4.5 g/cm³
     };
 
     const density = densities[material] || 0.0000078;

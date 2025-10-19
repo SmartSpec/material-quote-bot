@@ -25,8 +25,7 @@ const MATERIAL_MULTIPLIERS: Record<string, number> = {
   "A572": 1.1,
   "Steel": 1.0,
   "Aluminum": 1.0,
-  "Copper": 1.0,
-  "Stainless": 2.5,
+  "Titanium": 8.0,
 };
 
 // Weighted formula for steel pricing
@@ -121,12 +120,23 @@ serve(async (req) => {
     console.log("Fetched prices:", prices);
 
     // Calculate prices for different materials
+    const a36Price = calculateWeightedSteelPrice(prices, "A36");
+    const steel4140Price = calculateWeightedSteelPrice(prices, "4140");
+    const steel304SSPrice = calculateWeightedSteelPrice(prices, "304SS");
+    const steelA572Price = calculateWeightedSteelPrice(prices, "A572");
     const steelPrice = calculateWeightedSteelPrice(prices, "Steel");
-    const stainlessPrice = calculateWeightedSteelPrice(prices, "Stainless");
     const aluminumPrice = aluminum;
-    const copperPrice = copper;
+    const titaniumPrice = BASE_A36 * 8.0; // Titanium is ~8x base steel price
 
-    console.log("Calculated prices:", { steelPrice, stainlessPrice, aluminumPrice, copperPrice });
+    console.log("Calculated prices:", { 
+      a36Price, 
+      steel4140Price, 
+      steel304SSPrice, 
+      steelA572Price, 
+      steelPrice, 
+      aluminumPrice,
+      titaniumPrice 
+    });
 
     // Initialize Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
@@ -135,10 +145,13 @@ serve(async (req) => {
 
     // Update commodity prices in database
     const updates = [
+      { name: "A36", price: a36Price, unit: "$/ton", change_percentage: 0, trend: "stable" },
+      { name: "4140", price: steel4140Price, unit: "$/ton", change_percentage: 0, trend: "stable" },
+      { name: "304SS", price: steel304SSPrice, unit: "$/ton", change_percentage: 0, trend: "stable" },
+      { name: "A572", price: steelA572Price, unit: "$/ton", change_percentage: 0, trend: "stable" },
       { name: "Steel", price: steelPrice, unit: "$/ton", change_percentage: 0, trend: "stable" },
-      { name: "Stainless Steel", price: stainlessPrice, unit: "$/ton", change_percentage: 0, trend: "stable" },
       { name: "Aluminum", price: aluminumPrice, unit: "$/ton", change_percentage: 0, trend: "stable" },
-      { name: "Copper", price: copperPrice, unit: "$/ton", change_percentage: 0, trend: "stable" },
+      { name: "Titanium", price: titaniumPrice, unit: "$/ton", change_percentage: 0, trend: "stable" },
     ];
 
     for (const update of updates) {
@@ -169,10 +182,13 @@ serve(async (req) => {
       JSON.stringify({
         success: true,
         prices: {
-          steel: steelPrice,
-          stainless: stainlessPrice,
-          aluminum: aluminumPrice,
-          copper: copperPrice,
+          A36: a36Price,
+          "4140": steel4140Price,
+          "304SS": steel304SSPrice,
+          A572: steelA572Price,
+          Steel: steelPrice,
+          Aluminum: aluminumPrice,
+          Titanium: titaniumPrice,
         },
         raw_prices: prices,
       }),

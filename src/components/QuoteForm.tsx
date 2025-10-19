@@ -173,10 +173,13 @@ const QuoteForm = () => {
               <SelectValue placeholder="Select material" />
             </SelectTrigger>
             <SelectContent className="bg-card z-50">
-              <SelectItem value="steel">Steel</SelectItem>
-              <SelectItem value="aluminum">Aluminum</SelectItem>
-              <SelectItem value="copper">Copper</SelectItem>
-              <SelectItem value="stainless">Stainless Steel</SelectItem>
+              <SelectItem value="A36">Steel - A36</SelectItem>
+              <SelectItem value="4140">Steel - 4140</SelectItem>
+              <SelectItem value="304SS">Steel - 304 Stainless</SelectItem>
+              <SelectItem value="A572">Steel - A572</SelectItem>
+              <SelectItem value="Steel">Steel - Plain</SelectItem>
+              <SelectItem value="Aluminum">Aluminum</SelectItem>
+              <SelectItem value="Titanium">Titanium</SelectItem>
             </SelectContent>
           </Select>
         </div>
