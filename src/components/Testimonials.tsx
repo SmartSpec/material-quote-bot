@@ -4,24 +4,24 @@ import { Star } from "lucide-react";
 const Testimonials = () => {
   const testimonials = [
     {
-      name: "John Martinez",
-      company: "Precision Metalworks",
-      role: "Operations Manager",
-      content: "SmartSpec cut our quote turnaround time from 2 days to 10 minutes. Game changer for our business.",
+      name: "American Alloy Fabricators, Inc.",
+      company: "",
+      role: "",
+      content: "Quotes from vendors could take up to a week, in addition to ours which typically take just as long.",
       rating: 5,
     },
     {
-      name: "Sarah Chen",
-      company: "Industrial Fabricators Inc.",
-      role: "CEO",
-      content: "The real-time commodity pricing has saved us thousands. We're no longer guessing on material costs.",
+      name: "Michael Lynch",
+      company: "Tinsley Design & Fabricating",
+      role: "",
+      content: "Quoting can be a real bottleneck, essentially it determines how fast our work can move.",
       rating: 5,
     },
     {
-      name: "Mike Johnson",
-      company: "Custom Machine Shop",
-      role: "Lead Estimator",
-      content: "Finally, a quoting system that understands manufacturing. The CAD parser is incredibly accurate.",
+      name: "Zachary Zufall",
+      company: "Stoystown Tank & Steel Co.",
+      role: "",
+      content: "It is certainly an annoyance to have to wait more than 5 days to receive and/or send out quotes to clients.",
       rating: 5,
     },
   ];
@@ -31,10 +31,10 @@ const Testimonials = () => {
       <div className="container px-4 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">
-            Trusted by Manufacturers
+            Real Pain Points from Real Manufacturers
           </h2>
           <p className="text-lg text-muted-foreground">
-            See what industry leaders are saying about SmartSpec
+            These manufacturers face the challenges SmartSpec was built to solve
           </p>
         </div>
 
@@ -55,8 +55,8 @@ const Testimonials = () => {
                 </p>
                 <div className="border-t border-border pt-4">
                   <p className="font-semibold">{testimonial.name}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                  <p className="text-sm text-primary">{testimonial.company}</p>
+                  {testimonial.role && <p className="text-sm text-muted-foreground">{testimonial.role}</p>}
+                  {testimonial.company && <p className="text-sm text-primary">{testimonial.company}</p>}
                 </div>
               </CardContent>
             </Card>

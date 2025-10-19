@@ -6,10 +6,10 @@ const WhatIsSmartSpec = () => {
   const navigate = useNavigate();
 
   const stats = [
-    { value: "10x", label: "Faster Quotes" },
-    { value: "99%", label: "Accuracy Rate" },
-    { value: "24/7", label: "Live Pricing" },
-    { value: "$2M+", label: "Saved Annually" },
+    { value: "86%", label: "Lost Deals Due to Slow Quoting" },
+    { value: "$2.5M", label: "Revenue Leaked Annually" },
+    { value: "2+ Days", label: "Average Quote Time" },
+    { value: "<50%", label: "Typical Bid Win Rate" },
   ];
 
   return (
@@ -23,13 +23,35 @@ const WhatIsSmartSpec = () => {
           </h2>
           
           <p className="text-xl text-muted-foreground mb-4 leading-relaxed">
-            The intelligent quoting platform that transforms how manufacturers price their work.
+            Accurate, real-time quoting powered by live commodity prices and AI-driven optimization.
           </p>
           
-          <p className="text-lg text-muted-foreground mb-12 max-w-3xl mx-auto">
-            Upload CAD files, get instant quotes powered by real-time commodity pricing, 
-            and close deals faster than ever before. Built for fabricators who value precision and speed.
+          <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
+            SmartSpec provides manufacturers with seamless CAD integration, automatically extracting material requirements 
+            and dimensions to generate optimized quotes in seconds. Our platform uses AI algorithms to learn from your 
+            previous quotes and workflow data, continuously improving accuracy and efficiency.
           </p>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto text-left">
+            <div className="p-6 rounded-lg bg-card border border-border">
+              <h3 className="font-semibold text-primary mb-2">Real-Time Quoting</h3>
+              <p className="text-sm text-muted-foreground">
+                Live commodity prices, labor estimates, and floor space calculations ensure accurate quotes every time.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg bg-card border border-border">
+              <h3 className="font-semibold text-primary mb-2">Seamless Integration</h3>
+              <p className="text-sm text-muted-foreground">
+                Upload CAD files, select materials, and automatically receive professional PDF quotes ready for customers.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg bg-card border border-border">
+              <h3 className="font-semibold text-primary mb-2">AI-Driven Optimization</h3>
+              <p className="text-sm text-muted-foreground">
+                Machine learning algorithms analyze your quote history to improve accuracy and identify cost savings.
+              </p>
+            </div>
+          </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <Button 
