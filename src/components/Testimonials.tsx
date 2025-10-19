@@ -53,22 +53,22 @@ const Testimonials = () => {
                   <p className="font-semibold">{testimonial.name}</p>
                   {testimonial.role && <p className="text-sm text-muted-foreground">{testimonial.role}</p>}
                   {testimonial.company && (
-                    <div className="flex items-center gap-3 mt-1">
-                      <p className="text-sm text-primary">{testimonial.company}</p>
+                    <div className="flex items-center gap-3 mt-2">
                       {testimonial.company === "American Alloy Fabricators, Inc." && (
                         <img 
                           src={americanAlloyLogo} 
                           alt="American Alloy Fabricators logo" 
-                          className="h-16 object-contain"
+                          className="h-12 w-12 object-contain flex-shrink-0"
                         />
                       )}
                       {testimonial.company === "Tinsley Design & Fabricating" && (
                         <img 
                           src={tinsleyLogo} 
                           alt="Tinsley Design & Fabricating logo" 
-                          className="h-16 object-contain"
+                          className="h-12 w-12 object-contain flex-shrink-0"
                         />
                       )}
+                      <p className="text-sm text-primary">{testimonial.company}</p>
                     </div>
                   )}
                 </div>
