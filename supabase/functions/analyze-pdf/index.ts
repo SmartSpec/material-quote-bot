@@ -13,9 +13,22 @@ serve(async (req) => {
   }
 
   try {
-    const { pressure_vessel_upload_id } = await req.json();
+    console.log("=== analyze-pdf function started ===");
+    console.log("Request method:", req.method);
+
+    let requestBody;
+    try {
+      requestBody = await req.json();
+      console.log("Request body:", JSON.stringify(requestBody));
+    } catch (parseError) {
+      console.error("Failed to parse request body:", parseError);
+      throw new Error("Invalid JSON in request body");
+    }
+
+    const { pressure_vessel_upload_id } = requestBody;
 
     if (!pressure_vessel_upload_id) {
+      console.error("Missing pressure_vessel_upload_id in request");
       throw new Error("pressure_vessel_upload_id is required");
     }
 
@@ -52,10 +65,17 @@ serve(async (req) => {
 
     console.log("PDF downloaded, size:", pdfData.size);
 
-    // Convert PDF to base64
+    // Convert PDF to base64 - process in chunks to avoid memory issues
     const arrayBuffer = await pdfData.arrayBuffer();
     const bytes = new Uint8Array(arrayBuffer);
-    const base64Pdf = btoa(String.fromCharCode(...bytes));
+
+    // Convert to base64 in chunks to handle large files
+    let base64Pdf = '';
+    const chunkSize = 8192;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      const chunk = bytes.subarray(i, Math.min(i + chunkSize, bytes.length));
+      base64Pdf += btoa(String.fromCharCode.apply(null, Array.from(chunk)));
+    }
 
     console.log("PDF converted to base64");
     console.log("PDF size in bytes:", arrayBuffer.byteLength);
@@ -66,26 +86,29 @@ serve(async (req) => {
     const anthropic = new Anthropic({ apiKey: anthropicApiKey });
 
     console.log("Calling Claude API for PDF analysis...");
+    console.log("Using model: claude-sonnet-4-20250514");
 
-    // Call Claude API with vision using Sonnet 4.5 for best text reading
-    const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-5-20250929",
-      max_tokens: 1024,
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "document",
-              source: {
-                type: "base64",
-                media_type: "application/pdf",
-                data: base64Pdf,
+    let message;
+    try {
+      // Call Claude API with vision using Sonnet 4 for best text reading
+      message = await anthropic.messages.create({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 2048,
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "document",
+                source: {
+                  type: "base64",
+                  media_type: "application/pdf",
+                  data: base64Pdf,
+                },
               },
-            },
-            {
-              type: "text",
-              text: `You are analyzing a technical drawing of a pressure vessel (flat-end cylinder).
+              {
+                type: "text",
+                text: `You are analyzing a technical drawing of a pressure vessel (flat-end cylinder).
 
 Extract the following dimensions from this PDF drawing:
 1. RADIUS (R) or DIAMETER (D) - if diameter is given, divide by 2 for radius
@@ -107,13 +130,17 @@ Respond ONLY with a JSON object in this exact format:
 If you find diameter instead of radius, convert it by dividing by 2.
 If units are abbreviated (in, ", mm, cm, m, ft, '), expand them to full words.
 Only include the JSON object in your response, no other text.`,
-            },
-          ],
-        },
-      ],
-    });
-
-    console.log("Claude API response received");
+              },
+            ],
+          },
+        ],
+      });
+      console.log("Claude API response received");
+    } catch (claudeError) {
+      console.error("Claude API error:", claudeError);
+      console.error("Claude API error details:", JSON.stringify(claudeError, null, 2));
+      throw new Error(`Claude API failed: ${claudeError instanceof Error ? claudeError.message : String(claudeError)}`);
+    }
 
     // Extract the text response
     const textContent = message.content.find((block) => block.type === "text");
