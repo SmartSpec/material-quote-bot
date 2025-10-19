@@ -6,7 +6,7 @@ const Features = () => {
     {
       icon: Zap,
       title: "Instant Quotes",
-      description: "Generate accurate quotes in seconds, not hours. Upload CAD, get results instantly.",
+      description: "Generate accurate quotes in seconds, not hours. Upload your drawing PDFs & get results instantly.",
     },
     {
       icon: TrendingUp,
@@ -16,7 +16,7 @@ const Features = () => {
     {
       icon: Cpu,
       title: "Smart CAD Parser",
-      description: "Automatically extracts material, dimensions, and volume from your CAD files.",
+      description: "Automatically extracts material, dimensions, and volume from your drawing files.",
     },
     {
       icon: Clock,
