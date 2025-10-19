@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,13 @@ import { supabase } from "@/integrations/supabase/client";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const QuoteForm = () => {
+interface QuoteFormProps {
+  initialDiameter?: string;
+  initialHeight?: string;
+  initialThickness?: string;
+}
+
+const QuoteForm = ({ initialDiameter, initialHeight, initialThickness }: QuoteFormProps) => {
   const [quantity, setQuantity] = useState("1");
   const [material, setMaterial] = useState("");
   const [process, setProcess] = useState("");
@@ -22,6 +28,13 @@ const QuoteForm = () => {
   const [diameter, setDiameter] = useState("");
   const [height, setHeight] = useState("");
   const [thickness, setThickness] = useState("");
+
+  // Auto-populate when dimensions are extracted from PDF
+  useEffect(() => {
+    if (initialDiameter) setDiameter(initialDiameter);
+    if (initialHeight) setHeight(initialHeight);
+    if (initialThickness) setThickness(initialThickness);
+  }, [initialDiameter, initialHeight, initialThickness]);
 
   const handleGenerateQuote = async () => {
     if (!material || !process) {

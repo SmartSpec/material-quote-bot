@@ -1,16 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import PDFUpload from "@/components/PDFUpload";
+import PressureVesselUpload from "@/components/PressureVesselUpload";
 import CommodityPricing from "@/components/CommodityPricing";
 import QuoteForm from "@/components/QuoteForm";
 import WorkdayScheduling from "@/components/WorkdayScheduling";
 import FloorSpaceCapacity from "@/components/FloorSpaceCapacity";
 
+interface VesselDimensions {
+  radius: number;
+  height: number;
+  wallThickness: number;
+  unit: string;
+}
+
 const Quote = () => {
   const navigate = useNavigate();
+  const [extractedDimensions, setExtractedDimensions] = useState<VesselDimensions | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -60,11 +68,15 @@ const Quote = () => {
           </div>
 
           <div className="mb-8">
-            <PDFUpload />
+            <PressureVesselUpload onDimensionsExtracted={setExtractedDimensions} />
           </div>
 
           <div className="mb-8">
-            <QuoteForm />
+            <QuoteForm 
+              initialDiameter={extractedDimensions ? (extractedDimensions.radius * 2).toFixed(2) : undefined}
+              initialHeight={extractedDimensions ? extractedDimensions.height.toFixed(2) : undefined}
+              initialThickness={extractedDimensions ? extractedDimensions.wallThickness.toFixed(2) : undefined}
+            />
           </div>
 
           <div className="mt-6">
