@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage
+  SchemaVersion="1.0"
+  AutodeskProduct="AutoCAD"
+  Name="MassPropExtractor"
+  Description="Extracts MASSPROP data from 3D solids in DWG files"
+  Author="Material Quote Bot"
+  ProductType="Application"
+  ProductCode="{F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4}"
+  UpgradeCode="{F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4}"
+  Version="1.0.0">
+  <CompanyDetails
+    Name="Material Quote Bot"
+    Url="https://materialquotebot.com"
+    Email="support@materialquotebot.com" />
+  <Components Description="Mass Property Extractor Components">
+    <RuntimeRequirements
+      OS="Win64"
+      Platform="AutoCAD" />
+    <ComponentEntry
+      AppName="MassPropExtractor"
+      ModuleName="./Contents/MassPropExtractor.dll"
+      AppDescription="Extracts mass properties from 3D solids"
+      LoadOnCommandInvocation="True"
+      LoadOnAutoCADStartup="False">
+      <Commands GroupName="MassPropExtractor_Commands">
+        <Command Local="EXTRACTMASSPROP" Global="EXTRACTMASSPROP" />
+      </Commands>
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>

@@ -1,0 +1,9 @@
+F:\LATechWeek25_26\material-quote-bot\DesignAutomation\MassPropExtractor\obj\Release\MassPropExtractor.csproj.AssemblyReference.cache
+F:\LATechWeek25_26\material-quote-bot\DesignAutomation\MassPropExtractor\obj\Release\MassPropExtractor.GeneratedMSBuildEditorConfig.editorconfig
+F:\LATechWeek25_26\material-quote-bot\DesignAutomation\MassPropExtractor\obj\Release\MassPropExtractor.AssemblyInfoInputs.cache
+F:\LATechWeek25_26\material-quote-bot\DesignAutomation\MassPropExtractor\obj\Release\MassPropExtractor.AssemblyInfo.cs
+F:\LATechWeek25_26\material-quote-bot\DesignAutomation\MassPropExtractor\obj\Release\MassPropExtractor.csproj.CoreCompileInputs.cache
+F:\LATechWeek25_26\material-quote-bot\DesignAutomation\MassPropExtractor\bin\Release\MassPropExtractor.dll
+F:\LATechWeek25_26\material-quote-bot\DesignAutomation\MassPropExtractor\bin\Release\MassPropExtractor.pdb
+F:\LATechWeek25_26\material-quote-bot\DesignAutomation\MassPropExtractor\obj\Release\MassPropExtractor.dll
+F:\LATechWeek25_26\material-quote-bot\DesignAutomation\MassPropExtractor\obj\Release\MassPropExtractor.pdb

@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "restore": {
+    "F:\\LATechWeek25_26\\material-quote-bot\\DesignAutomation\\MassPropExtractor\\MassPropExtractor.csproj": {}
+  },
+  "projects": {
+    "F:\\LATechWeek25_26\\material-quote-bot\\DesignAutomation\\MassPropExtractor\\MassPropExtractor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "F:\\LATechWeek25_26\\material-quote-bot\\DesignAutomation\\MassPropExtractor\\MassPropExtractor.csproj",
+        "projectName": "MassPropExtractor",
+        "projectPath": "F:\\LATechWeek25_26\\material-quote-bot\\DesignAutomation\\MassPropExtractor\\MassPropExtractor.csproj",
+        "packagesPath": "C:\\Users\\Home\\.nuget\\packages\\",
+        "outputPath": "F:\\LATechWeek25_26\\material-quote-bot\\DesignAutomation\\MassPropExtractor\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "F:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Home\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "AutoCAD.NET": {
+              "target": "Package",
+              "version": "[24.2.0, )"
+            },
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )",
+              "autoReferenced": true
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.424\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

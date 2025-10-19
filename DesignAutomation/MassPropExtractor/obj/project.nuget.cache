@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "mnVXEiOG/l+VANZTFKK0wsiQ3sa7kNwM+rVAdLft/mkNJmX+144C7PJm5KPRU9KCMUDe5uMmbRxHM+bFQPWWiw==",
+  "success": true,
+  "projectFilePath": "F:\\LATechWeek25_26\\material-quote-bot\\DesignAutomation\\MassPropExtractor\\MassPropExtractor.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Home\\.nuget\\packages\\autocad.net\\24.2.0\\autocad.net.24.2.0.nupkg.sha512",
+    "C:\\Users\\Home\\.nuget\\packages\\autocad.net.core\\24.2.0\\autocad.net.core.24.2.0.nupkg.sha512",
+    "C:\\Users\\Home\\.nuget\\packages\\autocad.net.model\\24.2.0\\autocad.net.model.24.2.0.nupkg.sha512",
+    "C:\\Users\\Home\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.2\\microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
+    "C:\\Users\\Home\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net48\\1.0.2\\microsoft.netframework.referenceassemblies.net48.1.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
