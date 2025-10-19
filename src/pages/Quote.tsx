@@ -7,6 +7,7 @@ import PDFUpload from "@/components/PDFUpload";
 import CommodityPricing from "@/components/CommodityPricing";
 import QuoteForm from "@/components/QuoteForm";
 import WorkdayScheduling from "@/components/WorkdayScheduling";
+import FloorSpaceCapacity from "@/components/FloorSpaceCapacity";
 
 const Quote = () => {
   const navigate = useNavigate();
@@ -70,6 +71,10 @@ const Quote = () => {
 
           <div className="mt-6">
             <WorkdayScheduling />
+          </div>
+
+          <div className="mt-6">
+            <FloorSpaceCapacity />
           </div>
         </div>
       </section>
