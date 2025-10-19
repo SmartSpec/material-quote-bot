@@ -11,7 +11,7 @@ const Hero = ({ onGetStarted }: { onGetStarted: () => void }) => {
           className="absolute inset-0 w-full h-full object-cover"
         />
         {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/70 to-background z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/30 to-background/60 z-10" />
         {/* Animated grid overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--primary)/0.05)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary)/0.05)_1px,transparent_1px)] bg-[size:4rem_4rem] animate-pulse z-10" style={{ animationDuration: "4s" }} />
       </div>
