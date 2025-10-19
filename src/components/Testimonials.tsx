@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import americanAlloyLogo from "@/assets/american-alloy-logo.png";
 import tinsleyLogo from "@/assets/tinsley-logo.png";
+import manufacturingBackground from "@/assets/manufacturing-background.png";
 
 const Testimonials = () => {
   const testimonials = [
@@ -28,8 +29,12 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-20 bg-muted/30">
-      <div className="container px-4 mx-auto">
+    <section className="py-20 relative bg-muted/30">
+      <div 
+        className="absolute inset-0 bg-cover bg-center opacity-10"
+        style={{ backgroundImage: `url(${manufacturingBackground})` }}
+      />
+      <div className="container px-4 mx-auto relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">
             Real Pain Points from Real Manufacturers
