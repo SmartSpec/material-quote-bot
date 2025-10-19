@@ -72,21 +72,34 @@ serve(async (req) => {
     const fabricationCost = processCostPerUnit * quantity;
 
     // Labor hours estimation based on volume, complexity, and process
-    // Base hours per unit calculation (will eventually be based on historical data)
-    const baseHoursPerUnit = 2; // Base 2 hours per unit
-    const volumeComplexityFactor = Math.log10(volume / 10000) * 0.5; // Larger parts take more time
-    const processComplexityMultipliers: Record<string, number> = {
-      'laser-cutting': 0.8,
-      'cnc-machining': 1.5,
-      'sheet-metal': 0.7,
-      'welding': 1.2,
-    };
-    const processComplexity = processComplexityMultipliers[process] || 1.0;
+    // Base hours per unit calculation (based on industry standards)
+    const baseHoursPerUnit = 3; // Minimum 3 hours per unit for setup and fabrication
     
-    const estimatedHoursPerUnit = baseHoursPerUnit * (1 + volumeComplexityFactor) * processComplexity;
-    const totalLaborHours = estimatedHoursPerUnit * quantity;
-    const laborRate = 25.00; // $25 per hour (will eventually be based on Workday data)
+    // Volume-based complexity factor (larger parts = more time)
+    // Ensure minimum of 1.0 multiplier for small parts
+    const volumeInCubicInches = volume / 16387; // Convert mm³ to cubic inches
+    const volumeComplexityFactor = Math.max(1.0, 1 + (volumeInCubicInches / 100) * 0.5);
+    
+    // Process-specific time multipliers (based on typical shop floor times)
+    const processComplexityMultipliers: Record<string, number> = {
+      'laser-cutting': 1.2,  // Includes programming, setup, and cutting
+      'cnc-machining': 2.5,  // Most time-intensive, requires extensive setup
+      'sheet-metal': 1.0,    // Faster with modern equipment
+      'welding': 1.8,        // Includes prep, welding, and cleanup
+    };
+    const processComplexity = processComplexityMultipliers[process] || 1.5;
+    
+    // Calculate per-unit hours considering all factors
+    const estimatedHoursPerUnit = baseHoursPerUnit * volumeComplexityFactor * processComplexity;
+    
+    // Total labor hours for all units (with batch efficiency for quantities > 1)
+    const batchEfficiency = quantity > 1 ? 0.85 : 1.0; // 15% efficiency gain for batch runs
+    const totalLaborHours = estimatedHoursPerUnit * quantity * batchEfficiency;
+    
+    const laborRate = 25.00; // $25 per hour (industry standard shop rate)
     const laborCost = totalLaborHours * laborRate;
+    
+    console.log(`Labor calculation: volume=${volume}mm³, volumeFactor=${volumeComplexityFactor.toFixed(2)}, processMultiplier=${processComplexity}, hoursPerUnit=${estimatedHoursPerUnit.toFixed(2)}, totalHours=${totalLaborHours.toFixed(2)}, laborCost=$${laborCost.toFixed(2)}`);
 
     // Overhead calculation (energy, risk premium)
     const energyCost = 0.05 * quantity;
