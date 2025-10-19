@@ -100,7 +100,6 @@ const PressureVesselUpload = ({ onDimensionsExtracted }: PressureVesselUploadPro
 
       if (analysisError) {
         console.error("Analysis error:", analysisError);
-        toast.error("PDF uploaded but analysis failed. You can still generate quotes with manual inputs.");
         setIsAnalyzing(false);
         return;
       }
@@ -124,7 +123,6 @@ const PressureVesselUpload = ({ onDimensionsExtracted }: PressureVesselUploadPro
     } catch (error: any) {
       console.error("Full error object:", error);
       console.error("Error message:", error.message);
-      toast.error(error.message || "Failed to process PDF");
     } finally {
       setIsUploading(false);
       setIsAnalyzing(false);
