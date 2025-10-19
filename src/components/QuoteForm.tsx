@@ -119,7 +119,7 @@ const QuoteForm = ({ initialDiameter, initialHeight, initialThickness }: QuoteFo
         ['Quantity', quantity],
         ['Material', material.charAt(0).toUpperCase() + material.slice(1)],
         ['Process', process.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')],
-        ...(generatedQuote.volume ? [['Part Volume', `${generatedQuote.volume.toFixed(2)} mm³`]] : []),
+        ...(generatedQuote.volume ? [['Part Volume', `${Number(generatedQuote.volume).toFixed(2)} mm³`]] : []),
       ],
       theme: 'striped',
       headStyles: { fillColor: [0, 150, 136] },
@@ -134,12 +134,12 @@ const QuoteForm = ({ initialDiameter, initialHeight, initialThickness }: QuoteFo
       startY: finalY + 5,
       head: [['Description', 'Amount']],
       body: [
-        ['Material Cost', `$${generatedQuote.material_cost.toFixed(2)}`],
-        ['Fabrication Cost', `$${generatedQuote.fabrication_cost.toFixed(2)}`],
-        ['Labor Cost', `$${generatedQuote.labor_cost.toFixed(2)} (${generatedQuote.labor_hours.toFixed(1)} hrs @ $${generatedQuote.labor_rate}/hr)`],
-        ['Overhead & Risk', `$${generatedQuote.overhead_cost.toFixed(2)}`],
+        ['Material Cost', `$${Number(generatedQuote.material_cost || 0).toFixed(2)}`],
+        ['Fabrication Cost', `$${Number(generatedQuote.fabrication_cost || 0).toFixed(2)}`],
+        ['Labor Cost', `$${Number(generatedQuote.labor_cost || 0).toFixed(2)} (${Number(generatedQuote.labor_hours || 0).toFixed(1)} hrs @ $${generatedQuote.labor_rate || 0}/hr)`],
+        ['Overhead & Risk', `$${Number(generatedQuote.overhead_cost || 0).toFixed(2)}`],
       ],
-      foot: [['Total', `$${generatedQuote.total_price.toFixed(2)}`]],
+      foot: [['Total', `$${Number(generatedQuote.total_price || 0).toFixed(2)}`]],
       theme: 'striped',
       headStyles: { fillColor: [0, 150, 136] },
       footStyles: { fillColor: [0, 150, 136], fontStyle: 'bold' },
@@ -327,32 +327,32 @@ const QuoteForm = ({ initialDiameter, initialHeight, initialThickness }: QuoteFo
               {generatedQuote.volume && (
                 <div className="flex justify-between pb-2 border-b border-primary/10">
                   <span className="text-muted-foreground">Part Volume:</span>
-                  <span className="font-medium">{generatedQuote.volume.toFixed(2)} mm³</span>
+                  <span className="font-medium">{Number(generatedQuote.volume).toFixed(2)} mm³</span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Material Cost:</span>
-                <span className="font-medium">${generatedQuote.material_cost.toFixed(2)}</span>
+                <span className="font-medium">${Number(generatedQuote.material_cost || 0).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Fabrication:</span>
-                <span className="font-medium">${generatedQuote.fabrication_cost.toFixed(2)}</span>
+                <span className="font-medium">${Number(generatedQuote.fabrication_cost || 0).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Labor Cost:</span>
-                <span className="font-medium">${generatedQuote.labor_cost.toFixed(2)}</span>
+                <span className="font-medium">${Number(generatedQuote.labor_cost || 0).toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-xs pl-4">
-                <span className="text-muted-foreground/80">({generatedQuote.labor_hours.toFixed(1)} hrs @ ${generatedQuote.labor_rate}/hr)</span>
+                <span className="text-muted-foreground/80">({Number(generatedQuote.labor_hours || 0).toFixed(1)} hrs @ ${generatedQuote.labor_rate || 0}/hr)</span>
                 <span></span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Overhead & Risk:</span>
-                <span className="font-medium">${generatedQuote.overhead_cost.toFixed(2)}</span>
+                <span className="font-medium">${Number(generatedQuote.overhead_cost || 0).toFixed(2)}</span>
               </div>
               <div className="pt-2 border-t border-primary/20 flex justify-between text-base">
                 <span className="font-semibold">Total:</span>
-                <span className="font-bold text-primary">${generatedQuote.total_price.toFixed(2)}</span>
+                <span className="font-bold text-primary">${Number(generatedQuote.total_price || 0).toFixed(2)}</span>
               </div>
               <div className="text-xs text-muted-foreground mt-2">
                 Valid until: {new Date(generatedQuote.valid_until).toLocaleDateString()}
