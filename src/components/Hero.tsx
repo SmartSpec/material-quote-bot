@@ -1,17 +1,15 @@
+import heroBackground from "@/assets/hero-background.gif";
+
 const Hero = ({ onGetStarted }: { onGetStarted: () => void }) => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Manufacturing Video Background */}
+      {/* Animated Background */}
       <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        <img
+          src={heroBackground}
+          alt=""
           className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="https://cdn.pixabay.com/video/2024/02/15/200433-914273613_large.mp4" type="video/mp4" />
-        </video>
+        />
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/70 to-background z-10" />
         {/* Animated grid overlay */}
