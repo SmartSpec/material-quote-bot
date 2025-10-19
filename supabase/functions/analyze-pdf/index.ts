@@ -76,14 +76,6 @@ serve(async (req) => {
           role: "user",
           content: [
             {
-              type: "document",
-              source: {
-                type: "base64",
-                media_type: "application/pdf",
-                data: base64Pdf,
-              },
-            },
-            {
               type: "text",
               text: `You are analyzing a technical drawing of a pressure vessel (flat-end cylinder).
 
@@ -137,7 +129,8 @@ Only include the JSON object in your response, no other text.`,
       }
     } catch (parseError) {
       console.error("Failed to parse Claude response:", responseText);
-      throw new Error(`Failed to parse dimensions from PDF: ${parseError.message}`);
+      const errorMessage = parseError instanceof Error ? parseError.message : String(parseError);
+      throw new Error(`Failed to parse dimensions from PDF: ${errorMessage}`);
     }
 
     // Validate parsed data
@@ -183,8 +176,9 @@ Only include the JSON object in your response, no other text.`,
     );
   } catch (error) {
     console.error("Error in analyze-pdf function:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: errorMessage }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 500,
