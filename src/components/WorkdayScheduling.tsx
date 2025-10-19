@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import workdayLogo from "@/assets/workday-logo.png";
+import tinsleyLogo from "@/assets/tinsley-fabricating-logo.png";
 
 const WorkdayScheduling = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -21,10 +21,10 @@ const WorkdayScheduling = () => {
     <Card className="border-border shadow-card">
       <CardHeader>
         <div className="flex items-center gap-3 mb-2">
-          <img src={workdayLogo} alt="Workday" className="w-10 h-10" />
+          <img src={tinsleyLogo} alt="Tinsley Fabricating and Design" className="h-12 w-auto" />
           <div>
-            <CardTitle>Worker Scheduling & Availability</CardTitle>
-            <CardDescription>Live view of shifts and worker availability for the next month</CardDescription>
+            <CardTitle>Worker Scheduling and Availability</CardTitle>
+            <CardDescription>Tinsley Fabricating and Design</CardDescription>
           </div>
         </div>
       </CardHeader>

@@ -13,7 +13,7 @@ const FloorSpaceCapacity = () => {
       <CardHeader>
         <div className="flex items-center gap-2">
           <Warehouse className="w-5 h-5 text-primary" />
-          <CardTitle>Floor Space Capacity</CardTitle>
+          <CardTitle>Floor Space Capacity: Tinsley Fabricating and Design</CardTitle>
         </div>
         <CardDescription>Warehouse floor availability and usage</CardDescription>
       </CardHeader>
