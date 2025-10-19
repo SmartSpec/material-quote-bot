@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Hero from "@/components/Hero";
+import WhatIsSmartSpec from "@/components/WhatIsSmartSpec";
 import Features from "@/components/Features";
-import PDFUpload from "@/components/PDFUpload";
-import CADUpload from "@/components/CADUpload";
-import CommodityPricing from "@/components/CommodityPricing";
-import QuoteForm from "@/components/QuoteForm";
+import Testimonials from "@/components/Testimonials";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
@@ -35,52 +34,39 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="absolute top-4 right-4 z-50">
-        <Button onClick={handleSignOut} variant="outline">
-          Sign Out
-        </Button>
-      </div>
+      {/* Navigation Bar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-primary">SmartSpec</h1>
+          <div className="flex items-center gap-4">
+            <Button onClick={() => navigate("/quote")} variant="default">
+              Get Quote
+            </Button>
+            <Button onClick={handleSignOut} variant="outline">
+              Sign Out
+            </Button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
       <Hero />
       
-      <section className="py-20 container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Generate Your First Quote</h2>
-            <p className="text-lg text-muted-foreground">
-              Upload your drawings and configure your specifications to get started
-            </p>
-          </div>
+      {/* What is SmartSpec Section */}
+      <WhatIsSmartSpec />
 
-          <div className="mb-8">
-            <PDFUpload />
-          </div>
+      {/* Features Section */}
+      <div id="features">
+        <Features />
+      </div>
 
-          <div className="grid gap-6 lg:grid-cols-2 mb-8">
-            <CADUpload />
-            <QuoteForm />
-          </div>
+      {/* Testimonials Section */}
+      <div id="testimonials">
+        <Testimonials />
+      </div>
 
-          <div className="mt-6">
-            <CommodityPricing />
-          </div>
-        </div>
-      </section>
-
-      <Features />
-
-      <section className="py-20 bg-gradient-hero">
-        <div className="container px-4 mx-auto text-center">
-          <h2 className="text-4xl font-bold text-primary-foreground mb-6">
-            Ready to Transform Your Quoting Process?
-          </h2>
-          <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Join manufacturers who have reduced their quote time by 10x while improving accuracy
-          </p>
-          <button className="px-8 py-4 text-lg font-semibold rounded-lg bg-accent text-accent-foreground hover:bg-accent/90 transition-colors shadow-glow">
-            Start Free Trial
-          </button>
-        </div>
-      </section>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

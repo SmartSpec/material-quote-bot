@@ -1,51 +1,34 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Zap } from "lucide-react";
-
 const Hero = () => {
   return (
-    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-gradient-hero">
-      {/* Animated background grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--primary)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary)/0.1)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Manufacturing Background Video/Image Overlay */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background z-10" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2940')] bg-cover bg-center opacity-30" />
+        {/* Animated overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--primary)/0.05)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary)/0.05)_1px,transparent_1px)] bg-[size:4rem_4rem] animate-pulse" style={{ animationDuration: "4s" }} />
+      </div>
       
-      <div className="container relative z-10 px-4 py-20 mx-auto">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="mb-4 text-6xl font-bold tracking-tight text-primary-foreground md:text-7xl lg:text-8xl">
-            SmartSpec
-          </h1>
-          
-          <p className="mb-8 text-2xl text-primary-foreground/90 font-light tracking-wide">
-            Let your CAD drawings speak for themselves
-          </p>
-          
-          <p className="mb-8 text-lg text-primary-foreground/70 max-w-2xl mx-auto">
-            Upload your CAD file and get instant, dynamically updated quotes based on real-time commodity prices. 
-            Transform your quoting process from hours to seconds.
-          </p>
-          
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button size="lg" className="gap-2 shadow-glow">
-              Get Started
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-            <Button size="lg" variant="outline" className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20">
-              Watch Demo
-            </Button>
+      <div className="container relative z-20 px-4 py-32 mx-auto">
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="animate-fade-in" style={{ animationDelay: "0.2s", animationFillMode: "both" }}>
+            <h1 className="mb-6 text-7xl font-bold tracking-tight md:text-8xl lg:text-9xl">
+              SmartSpec
+            </h1>
           </div>
+          
+          <div className="animate-fade-in" style={{ animationDelay: "0.5s", animationFillMode: "both" }}>
+            <p className="mb-12 text-3xl font-light tracking-wide text-muted-foreground">
+              Let your CAD drawings speak for themselves
+            </p>
+          </div>
+        </div>
+      </div>
 
-          <div className="grid grid-cols-3 gap-8 mt-16 text-primary-foreground/90">
-            <div>
-              <div className="text-3xl font-bold text-accent">10x</div>
-              <div className="text-sm">Faster Quotes</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-accent">99%</div>
-              <div className="text-sm">Accuracy Rate</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-accent">24/7</div>
-              <div className="text-sm">Live Pricing</div>
-            </div>
-          </div>
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+        <div className="w-6 h-10 rounded-full border-2 border-primary/50 flex items-start justify-center p-2">
+          <div className="w-1 h-3 rounded-full bg-primary/50 animate-pulse" />
         </div>
       </div>
     </section>
