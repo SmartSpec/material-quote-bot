@@ -56,10 +56,15 @@ serve(async (req) => {
     const density = densities[material] || 0.0000078;
 
     // Calculate costs based on actual volume or estimate
-    let volume = estimatedVolume || 50000; // Default 50,000 mm³ if no CAD
+    // Default to a realistic fabricated part size: 500,000 mm³ (~30 cubic inches, roughly 12"x4"x2" part)
+    let volume = estimatedVolume || 500000;
     let materialWeight = volume * density; // kg
-    let materialCostPerUnit = (basePrice / 1000) * materialWeight; // Price per metric ton to kg
+    
+    // Material cost calculation: basePrice is per metric ton (1000 kg)
+    let materialCostPerUnit = (basePrice / 1000) * materialWeight; // Convert to cost per kg, multiply by weight
     const materialCost = materialCostPerUnit * quantity;
+    
+    console.log(`Material calculation: volume=${volume}mm³, density=${density}kg/mm³, weight=${materialWeight.toFixed(3)}kg, basePrice=$${basePrice}/ton, costPerUnit=$${materialCostPerUnit.toFixed(2)}`);
 
     // Process cost estimation
     const processCosts: Record<string, number> = {
@@ -122,6 +127,15 @@ serve(async (req) => {
     const validUntil = new Date();
     validUntil.setDate(validUntil.getDate() + 7);
 
+    console.log(`Final quote calculation:
+      - Material cost: $${materialCost.toFixed(2)}
+      - Fabrication cost: $${fabricationCost.toFixed(2)}
+      - Labor cost: $${laborCost.toFixed(2)}
+      - Overhead cost: $${overheadCost.toFixed(2)}
+      - Total before risk: $${(materialCost + fabricationCost + laborCost + overheadCost).toFixed(2)}
+      - Risk buffer: ${riskBuffer}
+      - TOTAL PRICE: $${totalPrice.toFixed(2)}`);
+
     // Save quote to database
     const { data: quote, error } = await supabaseClient
       .from('quotes')
@@ -144,7 +158,12 @@ serve(async (req) => {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      console.error('Database insert error:', error);
+      throw error;
+    }
+    
+    console.log('Quote saved successfully:', quote);
 
     // Include volume in response for display
     const responseData = {
