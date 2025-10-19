@@ -31,7 +31,7 @@ const PDFUpload = () => {
 
   const uploadFile = async (uploadedFile: File) => {
     const fileExtension = uploadedFile.name.toLowerCase().slice(uploadedFile.name.lastIndexOf('.'));
-    
+
     if (fileExtension !== '.pdf') {
       toast.error("Invalid file type. Please upload PDF files only.");
       return;
@@ -41,19 +41,35 @@ const PDFUpload = () => {
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         toast.error("Please sign in to upload files");
         return;
       }
 
       const filePath = `${user.id}/${Date.now()}_${uploadedFile.name}`;
-      
+
+      // Upload PDF to Supabase Storage
       const { error: uploadError } = await supabase.storage
-        .from('cad-files')
+        .from('pressure-vessel-pdfs')
         .upload(filePath, uploadedFile);
 
       if (uploadError) throw uploadError;
+
+      // Create database record
+      const { data: uploadData, error: dbError } = await supabase
+        .from('pressure_vessel_uploads')
+        .insert({
+          user_id: user.id,
+          file_name: uploadedFile.name,
+          file_path: filePath,
+          file_size: uploadedFile.size,
+          wall_thickness: 1, // Default wall thickness
+        })
+        .select()
+        .single();
+
+      if (dbError) throw dbError;
 
       setFile(uploadedFile);
       toast.success(`PDF "${uploadedFile.name}" uploaded successfully!`);
@@ -62,16 +78,20 @@ const PDFUpload = () => {
       setAnalyzing(true);
       try {
         const { data: analysisData, error: analysisError } = await supabase.functions.invoke('analyze-pdf', {
-          body: { 
-            file_path: filePath,
-            file_name: uploadedFile.name
+          body: {
+            pressure_vessel_upload_id: uploadData.id
           },
         });
 
         if (analysisError) throw analysisError;
 
-        if (analysisData?.success) {
-          setAnalysis(analysisData.analysis);
+        if (analysisData?.success && analysisData?.analysis) {
+          setAnalysis({
+            pages: 1, // PDF analysis doesn't return page count but we keep for compatibility
+            text_content: `Radius: ${analysisData.analysis.radius} ${analysisData.analysis.unit}, Height: ${analysisData.analysis.height} ${analysisData.analysis.unit}`,
+            dimensions: `${analysisData.analysis.radius} x ${analysisData.analysis.height} ${analysisData.analysis.unit}`,
+            file_name: analysisData.analysis.file_name
+          });
           toast.success("PDF analyzed successfully!");
         }
       } catch (analysisError: any) {

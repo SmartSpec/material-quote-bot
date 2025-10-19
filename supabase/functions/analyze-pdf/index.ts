@@ -76,6 +76,14 @@ serve(async (req) => {
           role: "user",
           content: [
             {
+              type: "document",
+              source: {
+                type: "base64",
+                media_type: "application/pdf",
+                data: base64Pdf,
+              },
+            },
+            {
               type: "text",
               text: `You are analyzing a technical drawing of a pressure vessel (flat-end cylinder).
 
