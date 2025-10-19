@@ -16,6 +16,12 @@ const QuoteForm = () => {
   const [process, setProcess] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedQuote, setGeneratedQuote] = useState<any>(null);
+  
+  // Manual input overrides
+  const [shape, setShape] = useState("");
+  const [length, setLength] = useState("");
+  const [width, setWidth] = useState("");
+  const [heightThickness, setHeightThickness] = useState("");
 
   const handleGenerateQuote = async () => {
     if (!material || !process) {
@@ -166,7 +172,7 @@ const QuoteForm = () => {
             <SelectTrigger>
               <SelectValue placeholder="Select material" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-card z-50">
               <SelectItem value="steel">Steel</SelectItem>
               <SelectItem value="aluminum">Aluminum</SelectItem>
               <SelectItem value="copper">Copper</SelectItem>
@@ -181,13 +187,88 @@ const QuoteForm = () => {
             <SelectTrigger>
               <SelectValue placeholder="Select process" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-card z-50">
               <SelectItem value="laser-cutting">Laser Cutting</SelectItem>
               <SelectItem value="cnc-machining">CNC Machining</SelectItem>
               <SelectItem value="sheet-metal">Sheet Metal</SelectItem>
               <SelectItem value="welding">Welding</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        {/* Manual Input Section */}
+        <div className="pt-6 border-t border-border">
+          <h4 className="text-sm font-semibold mb-4 text-muted-foreground">Manual Inputs (Override PDF Data)</h4>
+          
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="shape">Shape</Label>
+              <Select value={shape} onValueChange={setShape}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select shape" />
+                </SelectTrigger>
+                <SelectContent className="bg-card z-50">
+                  <SelectItem value="rectangle">Rectangle</SelectItem>
+                  <SelectItem value="square">Square</SelectItem>
+                  <SelectItem value="circle">Circle</SelectItem>
+                  <SelectItem value="tube">Tube/Pipe</SelectItem>
+                  <SelectItem value="angle">Angle/L-Shape</SelectItem>
+                  <SelectItem value="channel">Channel/U-Shape</SelectItem>
+                  <SelectItem value="i-beam">I-Beam</SelectItem>
+                  <SelectItem value="custom">Custom</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="length" className="text-xs">Length (mm)</Label>
+                <Input
+                  id="length"
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  value={length}
+                  onChange={(e) => setLength(e.target.value)}
+                  placeholder="0.0"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="width" className="text-xs">Width (mm)</Label>
+                <Input
+                  id="width"
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  value={width}
+                  onChange={(e) => setWidth(e.target.value)}
+                  placeholder="0.0"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="height" className="text-xs">Height/Thickness (mm)</Label>
+                <Input
+                  id="height"
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  value={heightThickness}
+                  onChange={(e) => setHeightThickness(e.target.value)}
+                  placeholder="0.0"
+                />
+              </div>
+            </div>
+
+            {(shape || length || width || heightThickness) && (
+              <div className="p-3 rounded-md bg-accent/10 border border-accent/20">
+                <p className="text-xs text-muted-foreground">
+                  <span className="font-semibold text-accent">Note:</span> Manual inputs will override any dimensions parsed from PDF files.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="pt-4 space-y-3">
