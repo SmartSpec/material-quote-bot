@@ -1,16 +1,28 @@
 import { Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="bg-card border-t border-border">
       <div className="container px-4 py-8 mx-auto">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           {/* Company Info */}
           <div className="flex-shrink-0">
-            <h3 className="text-lg font-bold text-primary mb-2">SmartSpec</h3>
-            <p className="text-sm text-muted-foreground max-w-xs">
-              Let your CAD drawings speak for themselves
-            </p>
+            <button 
+              onClick={scrollToTop}
+              className="text-left hover:opacity-80 transition-opacity cursor-pointer group"
+              aria-label="Scroll to top"
+            >
+              <h3 className="text-lg font-bold text-primary mb-2 group-hover:underline">
+                SmartSpec
+              </h3>
+              <p className="text-sm text-muted-foreground max-w-xs">
+                Let your CAD drawings speak for themselves
+              </p>
+            </button>
           </div>
 
           {/* Quick Links */}
