@@ -56,7 +56,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-hero p-4">
       <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
+        <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">SmartSpec</CardTitle>
           <CardDescription>Sign in or create an account to continue</CardDescription>
         </CardHeader>
