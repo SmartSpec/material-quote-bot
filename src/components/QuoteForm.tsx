@@ -222,41 +222,41 @@ const QuoteForm = () => {
 
             <div className="grid grid-cols-3 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="diameter" className="text-xs">Diameter (mm)</Label>
+                <Label htmlFor="diameter" className="text-xs">Diameter (in)</Label>
                 <Input
                   id="diameter"
                   type="number"
                   min="0"
-                  step="0.1"
+                  step="0.01"
                   value={diameter}
                   onChange={(e) => setDiameter(e.target.value)}
-                  placeholder="0.0"
+                  placeholder="0.00"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="height" className="text-xs">Height (mm)</Label>
+                <Label htmlFor="height" className="text-xs">Height (in)</Label>
                 <Input
                   id="height"
                   type="number"
                   min="0"
-                  step="0.1"
+                  step="0.01"
                   value={height}
                   onChange={(e) => setHeight(e.target.value)}
-                  placeholder="0.0"
+                  placeholder="0.00"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="thickness" className="text-xs">Thickness of Material (mm)</Label>
+                <Label htmlFor="thickness" className="text-xs">Thickness of Material (in)</Label>
                 <Input
                   id="thickness"
                   type="number"
                   min="0"
-                  step="0.1"
+                  step="0.01"
                   value={thickness}
                   onChange={(e) => setThickness(e.target.value)}
-                  placeholder="0.0"
+                  placeholder="0.00"
                 />
               </div>
             </div>
