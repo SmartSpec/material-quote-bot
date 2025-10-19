@@ -19,7 +19,7 @@ const WhySmartSpecMatters = () => {
           <h2 className="text-3xl font-bold mb-3">
             Why SmartSpec Matters
           </h2>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-lg text-foreground font-semibold mb-8">
             Without SmartSpec automated quoting:
           </p>
           
