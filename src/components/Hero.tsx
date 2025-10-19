@@ -23,7 +23,7 @@ const Hero = ({ onGetStarted }: { onGetStarted: () => void }) => {
           </div>
           
           <div className="animate-fade-in" style={{ animationDelay: "0.5s", animationFillMode: "both" }}>
-            <p className="mb-12 text-3xl font-light tracking-wide text-primary/90">
+            <p className="mb-12 text-3xl font-light tracking-wide text-white">
               Let your CAD drawings speak for themselves
             </p>
           </div>
