@@ -16,7 +16,7 @@ const Footer = () => {
               className="text-left hover:opacity-80 transition-opacity cursor-pointer group"
               aria-label="Scroll to top"
             >
-              <h3 className="text-lg font-bold text-primary mb-2 group-hover:underline">
+              <h3 className="text-2xl font-bold text-primary mb-2 group-hover:underline">
                 SmartSpec
               </h3>
               <p className="text-sm text-muted-foreground max-w-xs">
