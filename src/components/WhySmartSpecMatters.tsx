@@ -7,7 +7,7 @@ const WhySmartSpecMatters = () => {
   ];
 
   return (
-    <section className="py-20 bg-background">
+    <section className="py-20 bg-muted/50 border-y border-border">
       <div className="container px-4 mx-auto">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-3">
