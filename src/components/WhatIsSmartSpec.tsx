@@ -72,9 +72,12 @@ const WhatIsSmartSpec = ({ onGetStarted }: { onGetStarted: () => void }) => {
 
           {/* Key Stats */}
           <div className="mt-20 pt-16 border-t-2 border-border">
-            <h3 className="text-3xl font-bold mb-8">
+            <h3 className="text-3xl font-bold mb-3">
               Why SmartSpec Matters
             </h3>
+            <p className="text-lg text-muted-foreground mb-8">
+              Without SmartSpec automated quoting:
+            </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div 
