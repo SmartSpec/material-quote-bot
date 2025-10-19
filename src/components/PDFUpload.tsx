@@ -39,6 +39,10 @@ const PDFUpload = () => {
       return;
     }
 
+    // Debug: Log Supabase URL being used
+    console.log("Supabase URL:", import.meta.env.VITE_SUPABASE_URL);
+    console.log("Supabase Project ID:", import.meta.env.VITE_SUPABASE_PROJECT_ID);
+
     setUploading(true);
 
     try {
