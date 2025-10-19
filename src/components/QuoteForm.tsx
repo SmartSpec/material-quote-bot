@@ -19,9 +19,9 @@ const QuoteForm = () => {
   
   // Manual input overrides
   const [shape, setShape] = useState("");
-  const [length, setLength] = useState("");
-  const [width, setWidth] = useState("");
-  const [heightThickness, setHeightThickness] = useState("");
+  const [diameter, setDiameter] = useState("");
+  const [height, setHeight] = useState("");
+  const [thickness, setThickness] = useState("");
 
   const handleGenerateQuote = async () => {
     if (!material || !process) {
@@ -222,46 +222,46 @@ const QuoteForm = () => {
 
             <div className="grid grid-cols-3 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="length" className="text-xs">Length (mm)</Label>
+                <Label htmlFor="diameter" className="text-xs">Diameter (mm)</Label>
                 <Input
-                  id="length"
+                  id="diameter"
                   type="number"
                   min="0"
                   step="0.1"
-                  value={length}
-                  onChange={(e) => setLength(e.target.value)}
+                  value={diameter}
+                  onChange={(e) => setDiameter(e.target.value)}
                   placeholder="0.0"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="width" className="text-xs">Width (mm)</Label>
-                <Input
-                  id="width"
-                  type="number"
-                  min="0"
-                  step="0.1"
-                  value={width}
-                  onChange={(e) => setWidth(e.target.value)}
-                  placeholder="0.0"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="height" className="text-xs">Height/Thickness (mm)</Label>
+                <Label htmlFor="height" className="text-xs">Height (mm)</Label>
                 <Input
                   id="height"
                   type="number"
                   min="0"
                   step="0.1"
-                  value={heightThickness}
-                  onChange={(e) => setHeightThickness(e.target.value)}
+                  value={height}
+                  onChange={(e) => setHeight(e.target.value)}
+                  placeholder="0.0"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="thickness" className="text-xs">Thickness of Material (mm)</Label>
+                <Input
+                  id="thickness"
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  value={thickness}
+                  onChange={(e) => setThickness(e.target.value)}
                   placeholder="0.0"
                 />
               </div>
             </div>
 
-            {(shape || length || width || heightThickness) && (
+            {(shape || diameter || height || thickness) && (
               <div className="p-3 rounded-md bg-accent/10 border border-accent/20">
                 <p className="text-xs text-muted-foreground">
                   <span className="font-semibold text-accent">Note:</span> Manual inputs will override any dimensions parsed from PDF files.
