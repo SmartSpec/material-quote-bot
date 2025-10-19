@@ -1,3 +1,5 @@
+import manufacturingFlagBackground from "@/assets/manufacturing-flag-background.png";
+
 const WhySmartSpecMatters = () => {
   const stats = [
     { value: "86%", label: "Lost Deals Due to Slow Quoting" },
@@ -7,8 +9,12 @@ const WhySmartSpecMatters = () => {
   ];
 
   return (
-    <section className="py-20 bg-muted/50 border-y border-border">
-      <div className="container px-4 mx-auto">
+    <section className="py-20 bg-muted/50 border-y border-border relative overflow-hidden">
+      <div 
+        className="absolute inset-0 bg-cover bg-center opacity-30"
+        style={{ backgroundImage: `url(${manufacturingFlagBackground})` }}
+      />
+      <div className="container px-4 mx-auto relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-3">
             Why SmartSpec Matters
