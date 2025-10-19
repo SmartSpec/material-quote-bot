@@ -208,14 +208,15 @@ const QuoteForm = () => {
                   <SelectValue placeholder="Select shape" />
                 </SelectTrigger>
                 <SelectContent className="bg-card z-50">
-                  <SelectItem value="rectangle">Rectangle</SelectItem>
-                  <SelectItem value="square">Square</SelectItem>
-                  <SelectItem value="circle">Circle</SelectItem>
-                  <SelectItem value="tube">Tube/Pipe</SelectItem>
                   <SelectItem value="angle">Angle/L-Shape</SelectItem>
                   <SelectItem value="channel">Channel/U-Shape</SelectItem>
-                  <SelectItem value="i-beam">I-Beam</SelectItem>
+                  <SelectItem value="circle">Circle</SelectItem>
                   <SelectItem value="custom">Custom</SelectItem>
+                  <SelectItem value="cylinder-hollow">Cylinder (Hollow)</SelectItem>
+                  <SelectItem value="i-beam">I-Beam</SelectItem>
+                  <SelectItem value="rectangle">Rectangle</SelectItem>
+                  <SelectItem value="square">Square</SelectItem>
+                  <SelectItem value="tube">Tube/Pipe</SelectItem>
                 </SelectContent>
               </Select>
             </div>
