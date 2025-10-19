@@ -73,12 +73,12 @@ serve(async (req) => {
 
     // Labor hours estimation based on volume, complexity, and process
     // Base hours per unit calculation (based on industry standards)
-    const baseHoursPerUnit = 3; // Minimum 3 hours per unit for setup and fabrication
+    const baseHoursPerUnit = 5; // Minimum 5 hours per unit for setup and fabrication
     
     // Volume-based complexity factor (larger parts = more time)
-    // Ensure minimum of 1.0 multiplier for small parts
+    // More realistic scaling for typical part sizes
     const volumeInCubicInches = volume / 16387; // Convert mm³ to cubic inches
-    const volumeComplexityFactor = Math.max(1.0, 1 + (volumeInCubicInches / 100) * 0.5);
+    const volumeComplexityFactor = Math.max(1.5, 1 + Math.sqrt(volumeInCubicInches) * 0.15);
     
     // Process-specific time multipliers (based on typical shop floor times)
     const processComplexityMultipliers: Record<string, number> = {
