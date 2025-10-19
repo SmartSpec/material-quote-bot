@@ -49,17 +49,17 @@ const Testimonials = () => {
           {testimonials.map((testimonial, index) => (
             <Card
               key={index}
-              className="shadow-card hover:shadow-elegant transition-all duration-300 hover:-translate-y-1"
+              className="shadow-card hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 flex flex-col"
             >
-              <CardContent className="p-6">
-                <p className="text-muted-foreground mb-6 italic">
+              <CardContent className="p-6 flex flex-col flex-1">
+                <p className="text-muted-foreground mb-6 italic flex-1 min-h-[120px] flex items-center">
                   "{testimonial.content}"
                 </p>
                 <div className="border-t border-border pt-4">
                   <p className="font-semibold">{testimonial.name}</p>
                   {testimonial.role && <p className="text-sm text-muted-foreground">{testimonial.role}</p>}
                   {testimonial.company && (
-                    <div className="flex items-center gap-3 mt-1">
+                    <div className="flex items-center gap-3 mt-0.5">
                       <p className="text-sm text-primary">{testimonial.company}</p>
                       {testimonial.company === "American Alloy Fabricators, Inc." && (
                         <img 
