@@ -33,11 +33,11 @@ serve(async (req) => {
 
     const { quantity, material, process, cadUploadId, estimatedVolume } = await req.json();
 
-    // Fetch current commodity price
+    // Fetch current commodity price for the exact material
     const { data: commodityData } = await supabaseClient
       .from('commodity_prices')
       .select('price')
-      .ilike('name', `%${material}%`)
+      .eq('name', material)
       .single();
 
     const basePrice = commodityData?.price || 1000;
