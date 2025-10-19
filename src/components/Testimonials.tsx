@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import americanAlloyLogo from "@/assets/american-alloy-logo.png";
 import tinsleyLogo from "@/assets/tinsley-logo.png";
+import stoystownLogo from "@/assets/stoystown-logo.png";
 import manufacturingBackground from "@/assets/manufacturing-background.png";
 
 const Testimonials = () => {
@@ -71,6 +72,13 @@ const Testimonials = () => {
                         <img 
                           src={tinsleyLogo} 
                           alt="Tinsley Design & Fabricating logo" 
+                          className="h-16 object-contain"
+                        />
+                      )}
+                      {testimonial.company === "Stoystown Tank & Steel Co." && (
+                        <img 
+                          src={stoystownLogo} 
+                          alt="Stoystown Tank & Steel Co. logo" 
                           className="h-16 object-contain"
                         />
                       )}
