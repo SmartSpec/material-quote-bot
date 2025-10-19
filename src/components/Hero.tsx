@@ -16,13 +16,13 @@ const Hero = ({ onGetStarted }: { onGetStarted: () => void }) => {
       
       <div className="container relative z-20 px-4 py-32 mx-auto">
         <div className="max-w-5xl mx-auto text-center">
-          <div className="animate-fade-in" style={{ animationDelay: "0.2s", animationFillMode: "both" }}>
+          <div className="animate-fade-in" style={{ animationDelay: "1s", animationFillMode: "both" }}>
             <h1 className="mb-6 text-7xl font-bold tracking-tight md:text-8xl lg:text-9xl text-primary">
               SmartSpec
             </h1>
           </div>
           
-          <div className="animate-fade-in" style={{ animationDelay: "0.5s", animationFillMode: "both" }}>
+          <div className="animate-fade-in" style={{ animationDelay: "1.4s", animationFillMode: "both" }}>
             <p className="mb-12 text-3xl font-light tracking-wide text-white">
               Let your CAD drawings speak for themselves
             </p>
