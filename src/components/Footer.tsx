@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="bg-card border-t border-border">
       <div className="container px-4 py-12 mx-auto">
-        <div className="grid gap-8 md:grid-cols-4">
+        <div className="grid gap-8 md:grid-cols-3">
           {/* Company Info */}
           <div>
             <h3 className="text-xl font-bold text-primary mb-4">SmartSpec</h3>
@@ -35,33 +35,6 @@ const Footer = () => {
               <li>
                 <a href="#testimonials" className="hover:text-primary transition-colors">
                   Testimonials
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h4 className="font-semibold mb-4">Resources</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Documentation
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  API Reference
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Support
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Privacy Policy
                 </a>
               </li>
             </ul>
