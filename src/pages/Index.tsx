@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
+import PDFUpload from "@/components/PDFUpload";
 import CADUpload from "@/components/CADUpload";
 import CommodityPricing from "@/components/CommodityPricing";
 import QuoteForm from "@/components/QuoteForm";
@@ -46,8 +47,12 @@ const Index = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Generate Your First Quote</h2>
             <p className="text-lg text-muted-foreground">
-              Upload your CAD file and configure your specifications to get started
+              Upload your drawings and configure your specifications to get started
             </p>
+          </div>
+
+          <div className="mb-8">
+            <PDFUpload />
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2 mb-8">
