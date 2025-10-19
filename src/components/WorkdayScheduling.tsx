@@ -11,7 +11,7 @@ const WorkdayScheduling = () => {
   const scheduleData = [
     { name: "John Smith", role: "Welder", shift: "Morning (6AM-2PM)", availability: "Available", leaveFrom: null, leaveUntil: null },
     { name: "Sarah Johnson", role: "Fabricator", shift: "Afternoon (2PM-10PM)", availability: "Available", leaveFrom: null, leaveUntil: null },
-    { name: "Mike Chen", role: "Quality Inspector", shift: "Morning (6AM-2PM)", availability: "On Leave", leaveFrom: "Jan 15, 2025", leaveUntil: "Jan 25, 2025" },
+    { name: "Mike Chen", role: "Quality Inspector", shift: "Morning (6AM-2PM)", availability: "On Leave", leaveFrom: "Oct 22, 2025", leaveUntil: "Nov 1, 2025" },
     { name: "Emily Davis", role: "CNC Operator", shift: "Night (10PM-6AM)", availability: "Available", leaveFrom: null, leaveUntil: null },
     { name: "Robert Garcia", role: "Welder", shift: "Afternoon (2PM-10PM)", availability: "Available", leaveFrom: null, leaveUntil: null },
     { name: "Lisa Anderson", role: "Assembly Tech", shift: "Morning (6AM-2PM)", availability: "Available", leaveFrom: null, leaveUntil: null },
