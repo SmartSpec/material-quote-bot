@@ -58,7 +58,7 @@ const Testimonials = () => {
                         <img 
                           src={americanAlloyLogo} 
                           alt="American Alloy Fabricators logo" 
-                          className="h-10 object-contain"
+                          className="h-16 object-contain"
                         />
                       )}
                     </div>
