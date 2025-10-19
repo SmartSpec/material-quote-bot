@@ -13,23 +13,37 @@ serve(async (req) => {
   }
 
   try {
-    const { pdfPath, wallThickness } = await req.json();
+    const { pressure_vessel_upload_id } = await req.json();
 
-    if (!pdfPath) {
-      throw new Error("pdfPath is required");
+    if (!pressure_vessel_upload_id) {
+      throw new Error("pressure_vessel_upload_id is required");
     }
 
-    console.log("Processing PDF:", pdfPath);
+    console.log("Processing pressure vessel upload ID:", pressure_vessel_upload_id);
 
     // Initialize Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+    // Get upload record from database
+    const { data: uploadRecord, error: fetchError } = await supabase
+      .from("pressure_vessel_uploads")
+      .select("*")
+      .eq("id", pressure_vessel_upload_id)
+      .single();
+
+    if (fetchError || !uploadRecord) {
+      console.error("Fetch error:", fetchError);
+      throw new Error("Upload record not found");
+    }
+
+    console.log("Found upload record:", uploadRecord.file_name);
+
     // Download PDF from storage
-    const { data: pdfData, error: downloadError } = await supabase.storage
+    const { data: pdfData, error: downloadError} = await supabase.storage
       .from("pressure-vessel-pdfs")
-      .download(pdfPath);
+      .download(uploadRecord.file_path);
 
     if (downloadError) {
       console.error("Download error:", downloadError);
@@ -133,12 +147,34 @@ Only include the JSON object in your response, no other text.`,
 
     console.log("Extracted dimensions:", parsedData);
 
-    return new Response(
-      JSON.stringify({
+    // Update the database record with extracted dimensions
+    const { error: updateError } = await supabase
+      .from("pressure_vessel_uploads")
+      .update({
         radius: parsedData.radius,
         height: parsedData.height,
+        wall_thickness: uploadRecord.wall_thickness || 1,
         unit: parsedData.unit || "inches",
-        wallThickness: wallThickness || 1,
+        analyzed_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", pressure_vessel_upload_id);
+
+    if (updateError) {
+      console.error("Update error:", updateError);
+      // Don't throw - still return the data even if DB update fails
+    }
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        analysis: {
+          radius: parsedData.radius,
+          height: parsedData.height,
+          wall_thickness: uploadRecord.wall_thickness || 1,
+          unit: parsedData.unit || "inches",
+          file_name: uploadRecord.file_name,
+        },
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
