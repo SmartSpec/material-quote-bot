@@ -9,19 +9,15 @@ const Hero = () => {
       
       <div className="container relative z-10 px-4 py-20 mx-auto">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-primary/10 text-primary border border-primary/20">
-            <Zap className="w-4 h-4" />
-            <span className="text-sm font-medium">Powered by Real-Time Commodity Data</span>
-          </div>
-          
-          <h1 className="mb-6 text-5xl font-bold tracking-tight text-primary-foreground md:text-6xl lg:text-7xl">
-            Automated Quote Generation for{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary-glow">
-              Fabricated Parts
-            </span>
+          <h1 className="mb-4 text-6xl font-bold tracking-tight text-primary-foreground md:text-7xl lg:text-8xl">
+            SmartSpec
           </h1>
           
-          <p className="mb-8 text-xl text-primary-foreground/80 max-w-2xl mx-auto">
+          <p className="mb-8 text-2xl text-primary-foreground/90 font-light tracking-wide">
+            Let your CAD drawings speak for themselves
+          </p>
+          
+          <p className="mb-8 text-lg text-primary-foreground/70 max-w-2xl mx-auto">
             Upload your CAD file and get instant, dynamically updated quotes based on real-time commodity prices. 
             Transform your quoting process from hours to seconds.
           </p>
