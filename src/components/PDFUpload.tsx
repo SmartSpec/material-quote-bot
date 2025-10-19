@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
+// Force rebuild to pick up new env vars
+
 interface PDFAnalysisResult {
   pages: number;
   text_content: string;
