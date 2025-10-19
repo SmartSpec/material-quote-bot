@@ -71,7 +71,7 @@ const WhatIsSmartSpec = ({ onGetStarted }: { onGetStarted: () => void }) => {
           </div>
 
           {/* Key Stats */}
-          <div className="mt-20">
+          <div className="mt-20 pt-16 border-t-2 border-border">
             <h3 className="text-3xl font-bold mb-8">
               Why SmartSpec Matters
             </h3>
