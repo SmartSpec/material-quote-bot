@@ -123,6 +123,7 @@ const QuoteForm = () => {
       body: [
         ['Material Cost', `$${generatedQuote.material_cost.toFixed(2)}`],
         ['Fabrication Cost', `$${generatedQuote.fabrication_cost.toFixed(2)}`],
+        ['Labor Cost', `$${generatedQuote.labor_cost.toFixed(2)} (${generatedQuote.labor_hours.toFixed(1)} hrs @ $${generatedQuote.labor_rate}/hr)`],
         ['Overhead & Risk', `$${generatedQuote.overhead_cost.toFixed(2)}`],
       ],
       foot: [['Total', `$${generatedQuote.total_price.toFixed(2)}`]],
@@ -323,6 +324,14 @@ const QuoteForm = () => {
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Fabrication:</span>
                 <span className="font-medium">${generatedQuote.fabrication_cost.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Labor Cost:</span>
+                <span className="font-medium">${generatedQuote.labor_cost.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-xs pl-4">
+                <span className="text-muted-foreground/80">({generatedQuote.labor_hours.toFixed(1)} hrs @ ${generatedQuote.labor_rate}/hr)</span>
+                <span></span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Overhead & Risk:</span>

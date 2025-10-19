@@ -71,13 +71,29 @@ serve(async (req) => {
     const processCostPerUnit = processCosts[process] || 30;
     const fabricationCost = processCostPerUnit * quantity;
 
-    // Overhead calculation (labor, energy, risk premium)
-    const laborMultiplier = 1.25;
+    // Labor hours estimation based on volume, complexity, and process
+    // Base hours per unit calculation (will eventually be based on historical data)
+    const baseHoursPerUnit = 2; // Base 2 hours per unit
+    const volumeComplexityFactor = Math.log10(volume / 10000) * 0.5; // Larger parts take more time
+    const processComplexityMultipliers: Record<string, number> = {
+      'laser-cutting': 0.8,
+      'cnc-machining': 1.5,
+      'sheet-metal': 0.7,
+      'welding': 1.2,
+    };
+    const processComplexity = processComplexityMultipliers[process] || 1.0;
+    
+    const estimatedHoursPerUnit = baseHoursPerUnit * (1 + volumeComplexityFactor) * processComplexity;
+    const totalLaborHours = estimatedHoursPerUnit * quantity;
+    const laborRate = 25.00; // $25 per hour (will eventually be based on Workday data)
+    const laborCost = totalLaborHours * laborRate;
+
+    // Overhead calculation (energy, risk premium)
     const energyCost = 0.05 * quantity;
     const riskBuffer = 1.03; // 3% volatility buffer
     
-    const overheadCost = (materialCost + fabricationCost) * (laborMultiplier - 1) + energyCost;
-    const totalPrice = (materialCost + fabricationCost + overheadCost) * riskBuffer;
+    const overheadCost = energyCost;
+    const totalPrice = (materialCost + fabricationCost + laborCost + overheadCost) * riskBuffer;
 
     // Calculate validity period (7 days from now)
     const validUntil = new Date();
@@ -94,6 +110,9 @@ serve(async (req) => {
         process,
         material_cost: parseFloat(materialCost.toFixed(2)),
         fabrication_cost: parseFloat(fabricationCost.toFixed(2)),
+        labor_hours: parseFloat(totalLaborHours.toFixed(2)),
+        labor_rate: laborRate,
+        labor_cost: parseFloat(laborCost.toFixed(2)),
         overhead_cost: parseFloat(overheadCost.toFixed(2)),
         total_price: parseFloat(totalPrice.toFixed(2)),
         valid_until: validUntil.toISOString(),

@@ -152,6 +152,9 @@ export type Database = {
           created_at: string | null
           fabrication_cost: number
           id: string
+          labor_cost: number | null
+          labor_hours: number | null
+          labor_rate: number | null
           material: string
           material_cost: number
           overhead_cost: number
@@ -167,6 +170,9 @@ export type Database = {
           created_at?: string | null
           fabrication_cost: number
           id?: string
+          labor_cost?: number | null
+          labor_hours?: number | null
+          labor_rate?: number | null
           material: string
           material_cost: number
           overhead_cost: number
@@ -182,6 +188,9 @@ export type Database = {
           created_at?: string | null
           fabrication_cost?: number
           id?: string
+          labor_cost?: number | null
+          labor_hours?: number | null
+          labor_rate?: number | null
           material?: string
           material_cost?: number
           overhead_cost?: number
