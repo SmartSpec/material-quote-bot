@@ -51,6 +51,8 @@ const Quote = () => {
       <section className="py-20 container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
+            <h2 className="text-3xl font-semibold mb-2 text-muted-foreground">Welcome back</h2>
+            <h1 className="text-4xl font-bold mb-4 text-primary">Tinsley Fabricating and Design</h1>
             <h2 className="text-4xl font-bold mb-4">Generate Your Quote</h2>
             <p className="text-lg text-muted-foreground">
               Upload your drawings and configure your specifications to get started
