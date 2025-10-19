@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Hero from "@/components/Hero";
@@ -10,26 +10,32 @@ import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    // Check auth status but don't redirect
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        navigate("/auth");
-      }
+      setIsLoggedIn(!!session);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) {
-        navigate("/auth");
-      }
+      setIsLoggedIn(!!session);
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, []);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    navigate("/auth");
+    setIsLoggedIn(false);
+  };
+
+  const handleGetStarted = () => {
+    if (isLoggedIn) {
+      navigate("/quote");
+    } else {
+      navigate("/auth");
+    }
   };
 
   return (
@@ -39,21 +45,29 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-primary">SmartSpec</h1>
           <div className="flex items-center gap-4">
-            <Button onClick={() => navigate("/quote")} variant="default">
-              Get Quote
-            </Button>
-            <Button onClick={handleSignOut} variant="outline">
-              Sign Out
-            </Button>
+            {isLoggedIn ? (
+              <>
+                <Button onClick={() => navigate("/quote")} variant="default">
+                  Get Quote
+                </Button>
+                <Button onClick={handleSignOut} variant="outline">
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Button onClick={handleGetStarted} variant="default">
+                Get Started
+              </Button>
+            )}
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <Hero />
+      <Hero onGetStarted={handleGetStarted} />
       
       {/* What is SmartSpec Section */}
-      <WhatIsSmartSpec />
+      <WhatIsSmartSpec onGetStarted={handleGetStarted} />
 
       {/* Features Section */}
       <div id="features">

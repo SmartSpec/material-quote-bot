@@ -1,4 +1,4 @@
-const Hero = () => {
+const Hero = ({ onGetStarted }: { onGetStarted: () => void }) => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Manufacturing Video Background */}

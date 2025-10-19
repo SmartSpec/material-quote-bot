@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,15 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Redirect if already logged in
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        navigate("/quote");
+      }
+    });
+  }, [navigate]);
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +39,7 @@ const Auth = () => {
       toast.error(error.message);
     } else {
       toast.success("Account created! Please check your email.");
-      navigate("/");
+      navigate("/quote");
     }
     setLoading(false);
   };
@@ -48,13 +57,18 @@ const Auth = () => {
       toast.error(error.message);
     } else {
       toast.success("Signed in successfully!");
-      navigate("/");
+      navigate("/quote");
     }
     setLoading(false);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-hero p-4">
+      <div className="absolute top-4 left-4">
+        <Button onClick={() => navigate("/")} variant="ghost">
+          ← Back to Home
+        </Button>
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">SmartSpec</CardTitle>

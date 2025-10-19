@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
-const WhatIsSmartSpec = () => {
-  const navigate = useNavigate();
+const WhatIsSmartSpec = ({ onGetStarted }: { onGetStarted: () => void }) => {
 
   const stats = [
     { value: "86%", label: "Lost Deals Due to Slow Quoting" },
@@ -57,7 +55,7 @@ const WhatIsSmartSpec = () => {
             <Button 
               size="lg" 
               className="gap-2 shadow-glow text-lg px-8 py-6"
-              onClick={() => navigate("/quote")}
+              onClick={onGetStarted}
             >
               Get Started
               <ArrowRight className="w-5 h-5" />
