@@ -4,8 +4,8 @@ import { Star } from "lucide-react";
 const Testimonials = () => {
   const testimonials = [
     {
-      name: "American Alloy Fabricators, Inc.",
-      company: "",
+      name: "Austin Clay",
+      company: "American Alloy Fabricators, Inc.",
       role: "",
       content: "Quotes from vendors could take up to a week, in addition to ours which typically take just as long.",
       rating: 5,
