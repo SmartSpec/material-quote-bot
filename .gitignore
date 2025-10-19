@@ -17,6 +17,12 @@ dist-ssr
 .env.local
 .env.*.local
 
+# Claude Code settings
+.claude/
+
+# Local scripts
+check-access.bat
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

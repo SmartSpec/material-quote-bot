@@ -1,3 +1,0 @@
-@echo off
-set SUPABASE_ACCESS_TOKEN=sbp_cc95b5b083ba2065d7a331d7527a6efa9a58ec04
-npx supabase projects list
