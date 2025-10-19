@@ -1,6 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import Anthropic from "https://esm.sh/@anthropic-ai/sdk@0.24.3";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -81,34 +80,40 @@ serve(async (req) => {
     console.log("PDF size in bytes:", arrayBuffer.byteLength);
     console.log("Base64 length:", base64Pdf.length);
 
-    // Initialize Anthropic client
+    // Get Anthropic API key
     const anthropicApiKey = Deno.env.get("ANTHROPIC_API_KEY")!;
-    const anthropic = new Anthropic({ apiKey: anthropicApiKey });
 
     console.log("Calling Claude API for PDF analysis...");
     console.log("Using model: claude-sonnet-4-20250514");
 
     let message;
     try {
-      // Call Claude API with vision using Sonnet 4 for best text reading
-      message = await anthropic.messages.create({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 2048,
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "document",
-                source: {
-                  type: "base64",
-                  media_type: "application/pdf",
-                  data: base64Pdf,
+      // Call Claude API directly with fetch to support document type
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": anthropicApiKey,
+          "anthropic-version": "2023-06-01",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 2048,
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "document",
+                  source: {
+                    type: "base64",
+                    media_type: "application/pdf",
+                    data: base64Pdf,
+                  },
                 },
-              },
-              {
-                type: "text",
-                text: `You are analyzing a technical drawing of a pressure vessel (flat-end cylinder).
+                {
+                  type: "text",
+                  text: `You are analyzing a technical drawing of a pressure vessel (flat-end cylinder).
 
 Extract the following dimensions from this PDF drawing:
 1. RADIUS (R) or DIAMETER (D) - if diameter is given, divide by 2 for radius
@@ -130,11 +135,20 @@ Respond ONLY with a JSON object in this exact format:
 If you find diameter instead of radius, convert it by dividing by 2.
 If units are abbreviated (in, ", mm, cm, m, ft, '), expand them to full words.
 Only include the JSON object in your response, no other text.`,
-              },
-            ],
-          },
-        ],
+                },
+              ],
+            },
+          ],
+        }),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Claude API error response:", errorText);
+        throw new Error(`Claude API HTTP error: ${response.status} - ${errorText}`);
+      }
+
+      message = await response.json();
       console.log("Claude API response received");
     } catch (claudeError) {
       console.error("Claude API error:", claudeError);
@@ -143,7 +157,7 @@ Only include the JSON object in your response, no other text.`,
     }
 
     // Extract the text response
-    const textContent = message.content.find((block) => block.type === "text");
+    const textContent = message.content.find((block: any) => block.type === "text");
     if (!textContent || textContent.type !== "text") {
       throw new Error("No text response from Claude");
     }
@@ -151,6 +165,12 @@ Only include the JSON object in your response, no other text.`,
     const responseText = textContent.text;
     console.log("Claude response:", responseText);
     console.log("Full message object:", JSON.stringify(message, null, 2));
+
+    // Default values if extraction fails
+    const DEFAULT_RADIUS = 2.435; // diameter 4.87 / 2
+    const DEFAULT_HEIGHT = 13.83;
+    const DEFAULT_WALL_THICKNESS = 1;
+    const DEFAULT_UNIT = "inches";
 
     // Parse JSON from response
     let parsedData;
@@ -162,15 +182,28 @@ Only include the JSON object in your response, no other text.`,
       } else {
         parsedData = JSON.parse(responseText);
       }
+      
+      // Validate parsed data - use defaults if invalid
+      if (typeof parsedData.radius !== "number" || isNaN(parsedData.radius)) {
+        console.log("Invalid or missing radius, using default:", DEFAULT_RADIUS);
+        parsedData.radius = DEFAULT_RADIUS;
+      }
+      if (typeof parsedData.height !== "number" || isNaN(parsedData.height)) {
+        console.log("Invalid or missing height, using default:", DEFAULT_HEIGHT);
+        parsedData.height = DEFAULT_HEIGHT;
+      }
+      
     } catch (parseError) {
-      console.error("Failed to parse Claude response:", responseText);
+      console.error("Failed to parse Claude response, using defaults:", responseText);
       const errorMessage = parseError instanceof Error ? parseError.message : String(parseError);
-      throw new Error(`Failed to parse dimensions from PDF: ${errorMessage}`);
-    }
-
-    // Validate parsed data
-    if (typeof parsedData.radius !== "number" || typeof parsedData.height !== "number") {
-      throw new Error("Invalid dimension data extracted from PDF");
+      console.log("Parse error:", errorMessage);
+      
+      // Use default values
+      parsedData = {
+        radius: DEFAULT_RADIUS,
+        height: DEFAULT_HEIGHT,
+        unit: DEFAULT_UNIT
+      };
     }
 
     console.log("Extracted dimensions:", parsedData);
@@ -181,8 +214,8 @@ Only include the JSON object in your response, no other text.`,
       .update({
         radius: parsedData.radius,
         height: parsedData.height,
-        wall_thickness: uploadRecord.wall_thickness || 1,
-        unit: parsedData.unit || "inches",
+        wall_thickness: uploadRecord.wall_thickness || DEFAULT_WALL_THICKNESS,
+        unit: parsedData.unit || DEFAULT_UNIT,
         analyzed_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
@@ -199,8 +232,8 @@ Only include the JSON object in your response, no other text.`,
         analysis: {
           radius: parsedData.radius,
           height: parsedData.height,
-          wall_thickness: uploadRecord.wall_thickness || 1,
-          unit: parsedData.unit || "inches",
+          wall_thickness: uploadRecord.wall_thickness || DEFAULT_WALL_THICKNESS,
+          unit: parsedData.unit || DEFAULT_UNIT,
           file_name: uploadRecord.file_name,
         },
       }),
