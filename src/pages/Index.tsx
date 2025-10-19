@@ -40,17 +40,23 @@ const Index = () => {
     }
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen">
       {/* Navigation Bar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center p-2">
-              <img src={logo} alt="SmartSpec Logo" className="w-full h-full object-contain brightness-0 invert" />
-            </div>
+          <button 
+            onClick={scrollToTop}
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
+            aria-label="Scroll to top"
+          >
+            <img src={logo} alt="SmartSpec Logo" className="w-12 h-12 object-contain" />
             <h1 className="text-2xl font-bold text-primary">SmartSpec</h1>
-          </div>
+          </button>
           <div className="flex items-center gap-4">
             {isLoggedIn ? (
               <>
